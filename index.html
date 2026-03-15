@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paediatric Triage & Resource Hub</title>
+    <style>
+        /* CSS Variables for Beach Vibe Palette */
+        :root {
+            --ocean-blue: #0ea5e9;
+            --deep-ocean: #0369a1;
+            --coral-pink: #fb7185;
+            --sand-bg: #fdfbf7;
+            --card-bg: #ffffff;
+            --text-dark: #334155;
+            --text-light: #64748b;
+        }
+
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            background-color: var(--sand-bg); 
+            color: var(--text-dark); 
+            margin: 0; 
+            padding: 0; 
+            line-height: 1.6;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover { color: var(--ocean-blue); }
+        .nav-btn.active {
+            background-color: var(--ocean-blue);
+            color: white;
+            box-shadow: 0 4px 6px rgba(14, 165, 233, 0.2);
+        }
+
+        /* Main Container */
+        .container { 
+            max-width: 900px; 
+            margin: 40px auto; 
+            background: var(--card-bg); 
+            padding: 40px; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.03); 
+        }
+
+        h1 { 
+            color: var(--ocean-blue); 
+            text-align: center; 
+            margin-bottom: 30px; 
+            font-weight: 700;
+        }
+
+        /* View Toggling */
+        .view-section { display: none; animation: fadeIn 0.4s ease-in-out; }
+        .view-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Calculator Styles */
+        .input-group { margin-bottom: 20px; display: flex; flex-direction: column; align-items: center;}
+        label { font-weight: 600; margin-bottom: 8px; color: var(--deep-ocean); }
+        .sub-label { font-size: 0.85em; color: var(--text-light); margin-bottom: 8px;}
+        input[type="date"], input[type="number"], input[type="text"] { 
+            padding: 12px; font-size: 1em; border: 1px solid #e2e8f0; border-radius: 8px; width: 280px; 
+            background-color: var(--sand-bg);
+        }
+        input:focus { outline: none; border-color: var(--ocean-blue); box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1); }
+        
+        button.action-btn { 
+            background-color: var(--coral-pink); color: white; border: none; padding: 14px 28px; 
+            font-size: 1.1em; font-weight: bold; border-radius: 8px; cursor: pointer; transition: all 0.3s; 
+            display: block; margin: 0 auto; box-shadow: 0 4px 6px rgba(251, 113, 133, 0.2);
+        }
+        button.action-btn:hover { background-color: #e11d48; transform: translateY(-2px); }
+
+        #result-section { margin-top: 30px; }
+        .age-badge { background-color: var(--ocean-blue); color: white; padding: 15px; border-radius: 8px; font-weight: bold; text-align: center; margin-bottom: 25px; }
+        .domain-card { background: var(--sand-bg); border-left: 4px solid var(--ocean-blue); padding: 20px; margin-bottom: 15px; border-radius: 0 8px 8px 0; }
+        .domain-card h3 { margin-top: 0; color: var(--deep-ocean); }
+        .red-flags-card { background: #fff1f2; border-left: 4px solid var(--coral-pink); padding: 20px; margin-bottom: 15px; border-radius: 0 8px 8px 0; }
+        .red-flags-card h3 { margin-top: 0; color: #be123c; }
+
+        /* Library Grid Styles */
+        .search-bar { width: 100%; display: flex; justify-content: center; margin-bottom: 30px; }
+        .search-bar input { width: 100%; max-width: 400px; border-radius: 20px; padding: 12px 20px;}
+        
+        .library-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .condition-card {
+            background: var(--sand-bg);
+            border: 1px solid #e2e8f0;
+            padding: 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+        .condition-card:hover {
+            border-color: var(--ocean-blue);
+            background: white;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.1);
+            transform: translateY(-2px);
+            color: var(--ocean-blue);
+        }
+        .condition-card::after { content: "→"; opacity: 0; transition: opacity 0.2s; }
+        .condition-card:hover::after { opacity: 1; }
+
+    </style>
+</head>
+<body>
+
+<nav>
+    <button class="nav-btn active" onclick="switchView('calculator')">Milestone Calculator</button>
+    <button class="nav-btn" onclick="switchView('library')">Resource Library</button>
+</nav>
+
+<div class="container">
+    
+    <main id="calculator" class="view-section active">
+        <h1>Developmental Calculator</h1>
+        
+        <div class="input-group">
+            <label for="dob">Enter Child's Date of Birth:</label>
+            <input type="date" id="dob">
+        </div>
+        
+        <div class="input-group">
+            <label for="premature">Weeks Premature (Optional):</label>
+            <div class="sub-label">If born before 37 weeks, enter the number of weeks early.</div>
+            <input type="number" id="premature" min="0" max="20" placeholder="e.g., 4">
+        </div>
+
+        <button class="action-btn" onclick="calculateMilestones()">Assess Milestones</button>
+
+        <div id="result-section" style="display: none;">
+            <div id="age-display" class="age-badge"></div>
+            <div id="content-display"></div>
+        </div>
+    </main>
+
+    <main id="library" class="view-section">
+        <h1>Condition Resource Library</h1>
+        
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search for a condition..." onkeyup="filterLibrary()">
+        </div>
+
+        <div class="library-grid" id="library-container">
+            </div>
+    </main>
+
+</div>
+
+<script>
+    // --- 1. VIEW SWITCHING LOGIC ---
+    function switchView(viewId) {
+        document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+        
+        document.getElementById(viewId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    // --- 2. CONDITION LIBRARY DATA ---
+    // TO ADD LINKS LATER: Just replace the "#" with your Google Drive URL in quotes!
+    const conditions = [
+        { title: "Acquired Brain Injury", link: "#" },
+        { title: "ADHD", link: "#" },
+        { title: "Adoption Medicals", link: "#" },
+        { title: "Angelman Syndrome", link: "#" },
+        { title: "ASD", link: "#" },
+        { title: "Cerebral Palsy", link: "#" },
+        { title: "Complex feeding", link: "#" },
+        { title: "Contractures", link: "#" },
+        { title: "Detrusor-sphincter Dyssnergia", link: "#" },
+        { title: "Developmental Coordination Disorder", link: "#" },
+        { title: "Developmental Delay", link: "#" },
+        { title: "DiGeorge Syndrome", link: "#" },
+        { title: "DMD", link: "#" },
+        { title: "Downs Syndrome", link: "#" },
+        { title: "Dystonia", link: "#" },
+        { title: "EHCP", link: "#" },
+        { title: "Encopresis", link: "#" },
+        { title: "Foetal Alcohol Spectrum disorder", link: "#" },
+        { title: "Fragile X syndrome", link: "#" },
+        { title: "GDD", link: "#" },
+        { title: "Hearing Impairment", link: "#" },
+        { title: "Hip Dysplasia", link: "#" },
+        { title: "Hydronephrosis", link: "#" },
+        { title: "Intractable Constipation", link: "#" },
+        { title: "Learning disability", link: "#" },
+        { title: "Looked after child", link: "#" },
+        { title: "Mitrofanoff/ACE procedures", link: "#" },
+        { title: "NAI", link: "#" },
+        { title: "Neurofibromatosis", link: "#" },
+        { title: "Neurogenic Bladder", link: "#" },
+        { title: "Nocturnal Enuresis", link: "#" },
+        { title: "Pain in Non-verbal children", link: "#" },
+        { title: "Prader-Willi Syndrome", link: "#" },
+        { title: "Rett Syndrome", link: "#" },
+        { title: "Scoliosis", link: "#" },
+        { title: "Sensory Processing disorder", link: "#" },
+        { title: "Sialorrhoea", link: "#" },
+        { title: "Spasticity", link: "#" },
+        { title: "Speech & Language Delay", link: "#" },
+        { title: "Spina Bifida", link: "#" },
+        { title: "Spinal Cord Injury", link: "#" },
+        { title: "SUDEP", link: "#" },
+        { title: "Tics and Tourettes", link: "#" },
+        { title: "Transition Care", link: "#" },
+        { title: "Tuberous Sclerosis", link: "#" },
+        { title: "Vesicoureteral Reflux", link: "#" },
+        { title: "Visual Impairment", link: "#" },
+        { title: "Williams Syndrome", link: "#" }
+    ];
+
+    // Render the library
+    const libraryContainer = document.getElementById('library-container');
+    
+    function renderLibrary(data) {
+        libraryContainer.innerHTML = '';
+        data.forEach(item => {
+            const a = document.createElement('a');
+            a.href = item.link;
+            a.className = 'condition-card';
+            a.target = '_blank'; // Opens PDF in new tab
+            a.innerText = item.title;
+            libraryContainer.appendChild(a);
+        });
+    }
+    renderLibrary(conditions); // Initial render
+
+    // Search filter logic
+    function filterLibrary() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const filtered = conditions.filter(item => item.title.toLowerCase().includes(query));
+        renderLibrary(filtered);
+    }
+
+    // --- 3. MILESTONE CALCULATOR DATA & LOGIC ---
+    const milestoneData = [
+        { "age_group": "2 months", "domains": { "gross_motor": [ "Moves head from side to side while on back", "Holds head up longer than a few seconds when on tummy", "Kicks legs when lying on back", "Waves arms and legs, wiggles, and squirms" ], "fine_motor_vision": [ "Holds hands open or partly open when awake", "Grasps a finger if it touches the palm of the hand", "Looks at objects that are 8–10 inches away", "Follows moving objects or people with eyes" ], "speech_language_hearing": [ "Makes throaty or gurgling sounds", "Makes cooing sounds such as 'ooo', 'gah', and 'aah'", "Smiles when talked to", "Makes sounds back when spoken to" ], "social_emotional_play": [ "Smiles back when smiled at", "Watches own hands", "Tries to suck even when not feeding", "Cries when hungry, wet, tired, or wants to be held" ] }, "red_flags": [ "Did not pass the newborn hearing screening test", "Does not move both hands and both legs equally well", "Concerns about vision or tracking objects" ] },
+        { "age_group": "3 months", "domains": { "gross_motor": [ "Lifts head and chest from floor during tummy time", "Kicks vigorously, sometimes alternating legs", "Holds head steady when held in a sitting position" ], "fine_motor_vision": [ "Brings hands together over chest", "Engages in some finger play", "Holds a toy briefly when put in hand" ], "speech_language_hearing": [ "Recognises a familiar voice", "Vocalises when spoken to, beginning conversations", "Responds to environmental sounds", "Stops crying when hearing a voice other than the primary caregiver's" ], "social_emotional_play": [ "Smiles at carer or key person", "Begins to show emotion", "Enjoys being held and having cuddles" ] }, "red_flags": [ "Does not respond to loud noises", "Does not respond to familiar voices or turn to own name", "Does not move both hands and both legs equally well" ] },
+        { "age_group": "6 months", "domains": { "gross_motor": [ "Rolls over from back to front, and front to back", "Sits with support", "Straightens both arms and pushes whole chest off the floor when on tummy", "Lifts legs high enough to see feet while on back" ], "fine_motor_vision": [ "Uses whole hand in palmar grasp", "Passes a toy from one hand to the other", "Reaches for and grasps a toy using both hands", "Picks up a toy and puts it in mouth" ], "speech_language_hearing": [ "Makes simple babbling noises", "Makes high-pitched squeals and laughs", "Turns to see where a loud sound came from", "Responds to rhythm and tunes" ], "social_emotional_play": [ "Acts differently toward strangers", "Smiles or coos at self in a mirror", "Plays by grabbing foot and putting it in mouth", "Enjoys attention" ] }, "red_flags": [ "Does not use both hands and both legs equally well", "Feet are not flat on the surface most of the time when supported to stand", "Too quiet or does not make sounds like other babies" ] },
+        { "age_group": "9 months", "domains": { "gross_motor": [ "Sits unsupported", "Covers floor area by crawling", "Pulls to a standing position", "Supports own weight while standing" ], "fine_motor_vision": [ "Beginning to pick up small objects with a pincer grasp", "Bangs a toy against another toy", "Picks up two small toys", "Pokes at objects with index finger" ], "speech_language_hearing": [ "Responds to own name", "Points to objects of interest", "Babble is complex", "Copies sounds" ], "social_emotional_play": [ "Plays nursery games", "Shows clear preference for familiar people", "Begins to feed self with finger food", "Stiffens body in annoyance" ] }, "red_flags": [ "Does not use both hands and both legs equally well", "Does not make sounds or babble", "Cannot sit up straight for several minutes without support" ] },
+        { "age_group": "12 months", "domains": { "gross_motor": [ "Cruises around using furniture", "Stands alone and may walk a few steps", "Lowers self with control", "Throws toys intentionally" ], "fine_motor_vision": [ "Picks up a crumb with the tips of thumb and a finger", "Drops toys into a container", "Helps turn the pages of a book", "Puts a small toy down without dropping it" ], "speech_language_hearing": [ "Uses single words", "Understands simple instructions", "Joins in with some songs", "Looks for out-of-sight objects" ], "social_emotional_play": [ "Drinks from a cup", "Feeds self with a spoon", "Rolls or throws a ball back", "May undress self" ] }, "red_flags": [ "Does not play with sounds or seem to make words", "Feet are not flat on the surface most of the time when standing", "Does not respond to name", "Does not point to show things" ] },
+        { "age_group": "18 months", "domains": { "gross_motor": [ "Walks well", "Can run", "Walks up steps holding hands", "Kneels and squats steadily" ], "fine_motor_vision": [ "Scribbles back and forth", "Stacks three small blocks", "Turns pages in a book", "Uses a spoon to eat" ], "speech_language_hearing": [ "Uses between 6 and 20 clear words", "Understands many words", "Makes demands known by pointing", "Points to correct picture" ], "social_emotional_play": [ "Imitates everyday activities", "Plays contently alone", "Helps undress self", "Comes to adults when needing help" ] }, "red_flags": [ "Extremely upset by certain sounds", "Does not talk or seem to make words like other toddlers", "Does not walk, run, or climb", "Does not participate in pretend play" ] },
+        { "age_group": "2 years", "domains": { "gross_motor": [ "Runs competently", "Walks up and down stairs", "Rides large wheeled toys", "Jumps with both feet", "Kicks a ball" ], "fine_motor_vision": [ "Turns pages of a book one by one", "Joins and separates interlocking toys", "Draws circles, lines, and dots", "Stacks six or seven small blocks" ], "speech_language_hearing": [ "Vocabulary increases to approx. 50 words", "Names objects on sight", "Follows three-part directions", "Correctly uses pronouns" ], "social_emotional_play": [ "Plays alongside other children", "Feeds self well", "Attempts to verbalise toilet needs", "Engages in role-play" ] }, "red_flags": [ "Cannot understand most of what the child says", "Does not walk, run, and climb", "Does not put two or three words together", "Always wants to play alone" ] },
+        { "age_group": "3 years", "domains": { "gross_motor": [ "Walks and runs on tip-toes", "Pedals and steers a tricycle", "Climbs and slides on equipment confidently", "Jumps forward at least 6 inches" ], "fine_motor_vision": [ "Uses child-safe scissors", "Strings small items", "Draws a face", "Copies a vertical and horizontal line" ], "speech_language_hearing": [ "Uses three or four-word sentences", "Frequently asks 'what' and 'why' questions", "Uses language for thinking", "Counts reliably to three or four" ], "social_emotional_play": [ "Enjoys the company of other children", "Engages in elaborate make-believe play", "Understands the concept of saying sorry", "Puts on a coat" ] }, "red_flags": [ "Others cannot understand most of what the child says", "Flits from one thing to the next", "Seems worried, sad, or angry", "Cannot follow simple instructions" ] },
+        { "age_group": "4 years", "domains": { "gross_motor": [ "Can change direction while running", "Hops up and down on one foot", "Catches a large ball", "Throws a ball overhand" ], "fine_motor_vision": [ "Cuts a paper in half", "Draws a person with at least three features", "Unbuttons one or more buttons", "Copies shapes onto a piece of paper" ], "speech_language_hearing": [ "Speech is grammatically correct", "Retells stories", "Names at least five different colors", "Follows three unrelated directions" ], "social_emotional_play": [ "Friendships are increasingly valued", "Manages most personal care tasks independently", "Understands the importance of rules", "Can wait for their turn" ] }, "red_flags": [ "Speech is not easily understood by unfamiliar adults", "Struggling heavily with toilet training", "Does not take part in pretend play", "Cannot answer simple questions" ] },
+        { "age_group": "5 years", "domains": { "gross_motor": [ "Has good ball control", "Skips using alternating feet", "Walks on tiptoes", "Balance is good" ], "fine_motor_vision": [ "Good control in mark making", "Prints first name", "Colors mostly within the lines", "Copies letters and shapes" ], "speech_language_hearing": [ "Uses language to share opinions", "Uses comparison words", "Finishes sentences using opposite words", "Counts up to 15" ], "social_emotional_play": [ "Competent in all aspects of self-care", "Uses the toilet independently", "Usually takes turns", "Takes care of own possessions" ] }, "red_flags": [ "Cannot be understood by strangers", "Does not talk like other children their age", "Does not usually take turns", "Does not engage in co-operative play" ] }
+    ];
+
+    function calculateMilestones() {
+        const dobInput = document.getElementById('dob').value;
+        const premieWeeksInput = document.getElementById('premature').value;
+        const resultSection = document.getElementById('result-section');
+        const ageDisplay = document.getElementById('age-display');
+        const contentDisplay = document.getElementById('content-display');
+        
+        if (!dobInput) {
+            alert("Please select a date of birth.");
+            return;
+        }
+
+        const dob = new Date(dobInput);
+        const today = new Date();
+        
+        if (dob > today) {
+            resultSection.style.display = "block";
+            ageDisplay.innerHTML = "Error";
+            contentDisplay.innerHTML = "<p style='color: #e11d48; text-align:center;'>Date of birth cannot be in the future.</p>";
+            return;
+        }
+
+        let totalMonths = (today.getFullYear() - dob.getFullYear()) * 12;
+        totalMonths -= dob.getMonth();
+        totalMonths += today.getMonth();
+        if (today.getDate() < dob.getDate()) totalMonths--;
+
+        let displayAgeText = `Chronological Age: ${Math.floor(totalMonths/12)}y ${totalMonths%12}m`;
+
+        let assessedMonths = totalMonths;
+        if (premieWeeksInput && totalMonths < 24) {
+            const weeksPremature = parseInt(premieWeeksInput);
+            const monthsToSubtract = weeksPremature * 0.23; 
+            assessedMonths = Math.max(0, totalMonths - monthsToSubtract);
+            displayAgeText += `<br><span style="color:#fde047; font-weight:normal;">Corrected Age for Prematurity: ~${Math.floor(assessedMonths)} month(s)</span>`;
+        }
+
+        let targetGroup = "";
+        if (assessedMonths >= 72) {
+             resultSection.style.display = "block";
+             ageDisplay.innerHTML = displayAgeText;
+             contentDisplay.innerHTML = "<p style='color: #e11d48; text-align:center;'>Child is 6 years or older. This tool currently only tracks milestones up to 5 years.</p>";
+             return;
+        }
+        else if (assessedMonths >= 60) targetGroup = "5 years";
+        else if (assessedMonths >= 48) targetGroup = "4 years";
+        else if (assessedMonths >= 36) targetGroup = "3 years";
+        else if (assessedMonths >= 24) targetGroup = "2 years";
+        else if (assessedMonths >= 18) targetGroup = "18 months";
+        else if (assessedMonths >= 12) targetGroup = "12 months";
+        else if (assessedMonths >= 9) targetGroup = "9 months";
+        else if (assessedMonths >= 6) targetGroup = "6 months";
+        else if (assessedMonths >= 3) targetGroup = "3 months";
+        else if (assessedMonths >= 2) targetGroup = "2 months";
+        else {
+             resultSection.style.display = "block";
+             ageDisplay.innerHTML = displayAgeText;
+             contentDisplay.innerHTML = "<p style='text-align:center; font-weight:bold;'>Child is under 2 months corrected age. Use newborn physical guidelines.</p>";
+             return;
+        }
+
+        const data = milestoneData.find(m => m.age_group === targetGroup);
+
+        ageDisplay.innerHTML = `${displayAgeText} <br><br> Currently assessing: <strong>${targetGroup} milestones</strong>`;
+        
+        let htmlContent = "";
+        const domainNames = {
+            "gross_motor": "Gross Motor",
+            "fine_motor_vision": "Fine Motor & Vision",
+            "speech_language_hearing": "Speech, Language & Hearing",
+            "social_emotional_play": "Social, Emotional & Play"
+        };
+
+        for (const [key, name] of Object.entries(domainNames)) {
+            htmlContent += `<div class="domain-card"><h3>${name}</h3><ul>`;
+            data.domains[key].forEach(item => { htmlContent += `<li>${item}</li>`; });
+            htmlContent += `</ul></div>`;
+        }
+
+        htmlContent += `<div class="red-flags-card"><h3>🚩 Red Flags (Requires Action)</h3><ul>`;
+        data.red_flags.forEach(flag => { htmlContent += `<li>${flag}</li>`; });
+        htmlContent += `</ul></div>`;
+
+        contentDisplay.innerHTML = htmlContent;
+        resultSection.style.display = "block";
+    }
+</script>
+
+</body>
+</html>
