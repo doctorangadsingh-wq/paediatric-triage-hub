@@ -1,285 +1,800 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Developmental Milestone Assessor</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Modern Clinical Palette */
-        :root {
-            --primary: #0ea5e9;
-            --primary-hover: #0284c7;
-            --primary-light: #e0f2fe;
-            --bg-body: #f8fafc;
-            --bg-card: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --danger: #e11d48;
-            --danger-light: #ffe4e6;
-            --border: #e2e8f0;
-            
-            /* Domain Colors */
-            --domain-gross: #8b5cf6;
-            --domain-fine: #f59e0b;
-            --domain-speech: #10b981;
-            --domain-social: #ec4899;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Screening Tool for Developmental Milestones</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF7F2;
+    --ink: #1A1610;
+    --ink-soft: #5C5347;
+    --ink-faint: #9A9188;
+    --sage: #7A9E8E;
+    --sage-light: #D4E8DF;
+    --blush: #C9856A;
+    --blush-light: #F5DDD5;
+    --gold: #C4993A;
+    --gold-light: #F5EAD0;
+    --slate: #6A7E96;
+    --slate-light: #D5E1ED;
+    --plum: #8B6A96;
+    --plum-light: #E8D9EF;
+    --danger: #B84040;
+    --danger-light: #F5DCDC;
+    --border: rgba(26,22,16,0.1);
+    --border-strong: rgba(26,22,16,0.2);
+    --radius: 4px;
+    --radius-lg: 8px;
+  }
 
-        * { box-sizing: border-box; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: var(--bg-body); 
-            color: var(--text-main); 
-            margin: 0; 
-            padding: 20px; 
-            line-height: 1.6;
-        }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
 
-        /* Container & Typography */
-        .container { 
-            max-width: 800px; 
-            margin: 20px auto; 
-        }
+  /* ── HEADER ── */
+  .site-header {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .header-logo {
+    width: 28px;
+    height: 28px;
+  }
+  .header-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    letter-spacing: -0.01em;
+  }
+  .header-tag {
+    font-size: 11px;
+    color: rgba(250,247,242,0.4);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
 
-        h1 { 
-            color: var(--text-main); 
-            text-align: center; 
-            font-weight: 700;
-            font-size: 2.2em;
-            letter-spacing: -0.025em;
-            margin-bottom: 8px;
-        }
-        
-        p.subtitle {
-            text-align: center;
-            color: var(--text-muted);
-            margin-bottom: 40px;
-            font-size: 1.1em;
-        }
+  /* ── HERO ── */
+  .hero {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 64px 40px 72px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    border: 1px solid rgba(250,247,242,0.05);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 240px; height: 240px;
+    border-radius: 50%;
+    border: 1px solid rgba(250,247,242,0.08);
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 760px; margin: 0 auto; position: relative; }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 20px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--sage);
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: rgba(250,247,242,0.5);
+  }
+  .hero-desc {
+    font-size: 15px;
+    color: rgba(250,247,242,0.55);
+    max-width: 480px;
+    line-height: 1.7;
+  }
 
-        /* Form Elements */
-        .calculator-card {
-            background: var(--bg-card);
-            padding: 32px;
-            border-radius: 16px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
-            border: 1px solid var(--border);
-            margin-bottom: 30px;
-        }
+  /* ── MAIN LAYOUT ── */
+  .main-wrap {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
 
-        .input-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin-bottom: 24px;
-        }
+  /* ── FORM PANEL ── */
+  .form-panel {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 36px;
+    margin-top: -24px;
+    position: relative;
+    box-shadow: 0 4px 24px rgba(26,22,16,0.07);
+  }
 
-        @media (max-width: 600px) { .input-grid { grid-template-columns: 1fr; } }
+  .form-section-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
 
-        .input-group { display: flex; flex-direction: column; }
-        label { font-weight: 600; font-size: 0.95em; margin-bottom: 6px; color: var(--text-main); }
-        .sub-label { font-size: 0.8em; color: var(--text-muted); margin-bottom: 8px; line-height: 1.4;}
-        
-        input[type="date"], input[type="number"] { 
-            padding: 12px 16px; 
-            font-size: 1em; 
-            font-family: inherit;
-            border: 1px solid var(--border); 
-            border-radius: 8px; 
-            background-color: var(--bg-body);
-            transition: all 0.2s;
-            width: 100%;
-        }
-        
-        input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-light); background: white; }
-        
-        button.action-btn { 
-            background-color: var(--primary); color: white; border: none; padding: 14px 32px; 
-            font-size: 1.05em; font-weight: 600; border-radius: 8px; cursor: pointer; transition: all 0.2s; 
-            width: 100%; box-shadow: 0 4px 6px -1px rgba(14, 165, 233, 0.2);
-        }
-        button.action-btn:hover { background-color: var(--primary-hover); transform: translateY(-1px); }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  @media(max-width:540px){ .form-row { grid-template-columns: 1fr; } }
 
-        /* Results Display */
-        #result-section {
-            animation: fadeIn 0.4s ease-out;
-        }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .field { display: flex; flex-direction: column; gap: 7px; }
+  .field label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    letter-spacing: 0.01em;
+  }
+  .field-hint {
+    font-size: 11px;
+    color: var(--ink-faint);
+    margin-top: -3px;
+  }
+  .field input {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    padding: 10px 14px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: var(--cream);
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .field input:focus {
+    border-color: var(--sage);
+    box-shadow: 0 0 0 3px rgba(122,158,142,0.15);
+    background: #fff;
+  }
 
-        .age-badge { 
-            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-            color: white; padding: 20px; border-radius: 12px; font-weight: 500; 
-            text-align: center; margin-bottom: 24px; font-size: 1.1em;
-            box-shadow: 0 4px 10px rgba(14, 165, 233, 0.2);
-        }
-        .age-badge strong { font-size: 1.3em; display: block; margin-top: 8px; }
-        .correction-note { font-size: 0.85em; opacity: 0.9; margin-top: 8px; display: inline-block; background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px;}
+  .error-msg {
+    display: none;
+    font-size: 12px;
+    color: var(--danger);
+    background: var(--danger-light);
+    border: 1px solid rgba(184,64,64,0.2);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    margin-bottom: 16px;
+  }
+  .error-msg.show { display: block; }
 
-        .domain-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
+  .submit-btn {
+    width: 100%;
+    padding: 13px 24px;
+    background: var(--ink);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .submit-btn:hover { background: #2E2A24; }
+  .submit-btn:active { transform: scale(0.99); }
+  .btn-arrow { font-size: 16px; line-height: 1; }
 
-        @media (max-width: 768px) { .domain-grid { grid-template-columns: 1fr; } }
+  /* ── RESULTS ── */
+  #results { display: none; margin-top: 28px; }
 
-        .domain-card { 
-            background: var(--bg-card); padding: 20px; border-radius: 12px; 
-            border: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        }
-        .domain-card h3 { margin: 0 0 12px 0; font-size: 1.05em; display: flex; align-items: center; gap: 8px; }
-        .domain-card ul { margin: 0; padding-left: 20px; color: var(--text-muted); font-size: 0.95em; }
-        .domain-card li { margin-bottom: 8px; }
-        
-        .card-gross h3 { color: var(--domain-gross); }
-        .card-fine h3 { color: var(--domain-fine); }
-        .card-speech h3 { color: var(--domain-speech); }
-        .card-social h3 { color: var(--domain-social); }
+  .result-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .result-ages { display: flex; flex-direction: column; gap: 4px; }
+  .result-age-row { display: flex; align-items: center; gap: 8px; }
+  .age-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+    min-width: 110px;
+  }
+  .age-val {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .corrected-badge {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: var(--gold-light);
+    color: var(--gold);
+    border: 1px solid rgba(196,153,58,0.25);
+    padding: 3px 8px;
+    border-radius: 20px;
+    margin-left: 8px;
+  }
 
-        .red-flags-card { 
-            background: var(--danger-light); border: 1px solid #fecdd3; padding: 24px; 
-            margin-top: 16px; border-radius: 12px; grid-column: 1 / -1;
-        }
-        .red-flags-card h3 { margin: 0 0 12px 0; color: var(--danger); display: flex; align-items: center; gap: 8px; }
-        .red-flags-card ul { margin: 0; padding-left: 20px; color: #9f1239; font-weight: 500; }
-        .red-flags-card li { margin-bottom: 6px; }
-    </style>
+  /* Milestone Tabs */
+  .milestone-tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .m-tab {
+    padding: 7px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid var(--border-strong);
+    border-radius: 20px;
+    cursor: pointer;
+    background: transparent;
+    color: var(--ink-soft);
+    transition: all 0.18s;
+    position: relative;
+  }
+  .m-tab:hover { border-color: var(--ink); color: var(--ink); }
+  .m-tab.active {
+    background: var(--ink);
+    color: var(--cream);
+    border-color: var(--ink);
+  }
+  .m-tab .tab-indicator {
+    display: inline-block;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--sage);
+    margin-left: 5px;
+    vertical-align: middle;
+    margin-top: -2px;
+  }
+
+  /* Section heading */
+  .section-heading {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-heading::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Domain grid */
+  .domain-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  @media(max-width:560px){ .domain-grid { grid-template-columns: 1fr; } }
+
+  .domain-card {
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    border: 1px solid transparent;
+  }
+  .domain-card.gross  { background: var(--plum-light);  border-color: rgba(139,106,150,0.2); }
+  .domain-card.fine   { background: var(--gold-light);  border-color: rgba(196,153,58,0.2); }
+  .domain-card.speech { background: var(--sage-light);  border-color: rgba(122,158,142,0.2); }
+  .domain-card.social { background: var(--slate-light); border-color: rgba(106,126,150,0.2); }
+
+  .domain-title {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(26,22,16,0.1);
+  }
+  .domain-card.gross  .domain-title { color: var(--plum); }
+  .domain-card.fine   .domain-title { color: var(--gold); }
+  .domain-card.speech .domain-title { color: var(--sage); }
+  .domain-card.social .domain-title { color: var(--slate); }
+
+  .milestone-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .milestone-list li {
+    font-size: 13px;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    line-height: 1.45;
+  }
+  .m-bullet {
+    width: 16px; height: 16px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: 1.5px solid currentColor;
+    margin-top: 1px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .domain-card.gross  .m-bullet { color: var(--plum);  }
+  .domain-card.fine   .m-bullet { color: var(--gold);  }
+  .domain-card.speech .m-bullet { color: var(--sage);  }
+  .domain-card.social .m-bullet { color: var(--slate); }
+
+  /* Red Flags */
+  .flags-panel {
+    background: var(--danger-light);
+    border: 1px solid rgba(184,64,64,0.2);
+    border-radius: var(--radius-lg);
+    padding: 22px;
+    margin-top: 12px;
+  }
+  .flags-title {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--danger);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(184,64,64,0.15);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .flags-title svg { flex-shrink: 0; }
+  .flags-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 20px;
+  }
+  @media(max-width:480px){ .flags-grid { grid-template-columns: 1fr; } }
+  .flag-item {
+    font-size: 13px;
+    color: var(--danger);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.45;
+  }
+  .flag-dash {
+    font-size: 16px;
+    line-height: 1;
+    margin-top: -1px;
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
+
+  /* Disclaimer */
+  .disclaimer {
+    margin-top: 24px;
+    padding: 16px 20px;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 12px;
+    color: var(--ink-faint);
+    line-height: 1.6;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .disclaimer svg { flex-shrink: 0; margin-top: 1px; }
+
+  /* Footer */
+  footer {
+    background: var(--ink);
+    color: rgba(250,247,242,0.35);
+    text-align: center;
+    font-size: 11px;
+    padding: 20px;
+    letter-spacing: 0.03em;
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { animation: fadeUp 0.35s ease-out forwards; }
+</style>
 </head>
 <body>
 
-<div class="container">
-    <main>
-        <h1>Developmental Assessor</h1>
-        <p class="subtitle">Evidence-based milestone tracking and clinical prematurity correction.</p>
-        
-        <div class="calculator-card">
-            <div class="input-grid">
-                <div class="input-group">
-                    <label for="dob">Date of Birth</label>
-                    <div class="sub-label">Select the child's exact DOB.</div>
-                    <input type="date" id="dob">
-                </div>
-                
-                <div class="input-group">
-                    <label for="gestation">Gestational Age at Birth</label>
-                    <div class="sub-label">Enter weeks (e.g., 34). Full term is 40.</div>
-                    <input type="number" id="gestation" min="20" max="42" placeholder="40">
-                </div>
-            </div>
-            <button class="action-btn" onclick="calculateMilestones()">Assess Milestones</button>
-        </div>
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-brand">
+    <svg class="header-logo" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="8" cy="8" r="5" fill="rgba(250,247,242,0.15)"/>
+      <circle cx="20" cy="8" r="5" fill="rgba(250,247,242,0.15)"/>
+      <ellipse cx="14" cy="17" rx="10" ry="9" fill="rgba(250,247,242,0.15)"/>
+      <ellipse cx="14" cy="17" rx="8" ry="7.5" fill="rgba(250,247,242,0.2)"/>
+      <circle cx="11" cy="15" r="1.5" fill="rgba(250,247,242,0.7)"/>
+      <circle cx="17" cy="15" r="1.5" fill="rgba(250,247,242,0.7)"/>
+      <ellipse cx="14" cy="19" rx="2" ry="1.2" fill="rgba(250,247,242,0.35)"/>
+    </svg>
+    <span class="header-title">PaedScreen</span>
+  </div>
+  <span class="header-tag">Clinical Reference</span>
+</header>
 
-        <div id="result-section" style="display: none;">
-            <div id="age-display" class="age-badge"></div>
-            <div id="content-display" class="domain-grid"></div>
-        </div>
-    </main>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Paediatric Assessment</div>
+    <h1>Screening Tool for<br><em>Developmental</em> Milestones</h1>
+    <p class="hero-desc">Evidence-based milestone review across four developmental domains, with clinical prematurity correction for infants born before 37 weeks gestation.</p>
+  </div>
 </div>
 
+<!-- MAIN -->
+<div class="main-wrap">
+
+  <!-- FORM -->
+  <div class="form-panel">
+    <div class="form-section-label">Patient details</div>
+    <div class="form-row">
+      <div class="field">
+        <label>Date of birth</label>
+        <span class="field-hint">Select the child's exact date of birth</span>
+        <input type="date" id="dob">
+      </div>
+      <div class="field">
+        <label>Gestational age at birth (weeks)</label>
+        <span class="field-hint">Enter if premature — leave blank or enter 40 if term</span>
+        <input type="number" id="gestation" min="20" max="42" placeholder="40">
+      </div>
+    </div>
+    <div class="error-msg" id="err">Please enter a valid date of birth.</div>
+    <button class="submit-btn" onclick="runAssessment()">
+      <span>Generate milestone report</span>
+      <span class="btn-arrow">→</span>
+    </button>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+
+    <div class="result-header">
+      <div class="result-ages" id="age-block"></div>
+      <div class="milestone-tabs" id="tabs"></div>
+    </div>
+
+    <div id="milestone-output"></div>
+
+    <div class="disclaimer">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <circle cx="7" cy="7" r="6.5" stroke="#9A9188"/>
+        <rect x="6.4" y="5.5" width="1.2" height="5" rx="0.6" fill="#9A9188"/>
+        <rect x="6.4" y="3" width="1.2" height="1.5" rx="0.6" fill="#9A9188"/>
+      </svg>
+      This tool is intended for clinical reference only and does not constitute a diagnostic assessment. Results should be interpreted by a qualified paediatric clinician in the context of a full developmental history and clinical examination.
+    </div>
+  </div>
+</div>
+
+<footer>
+  PaedScreen &mdash; Developmental Milestone Screening Tool &mdash; For clinical use only
+</footer>
+
 <script>
-    // --- MILESTONE DATA ---
-    const milestoneData = [
-        { "age_group": "2 months", "domains": { "gross_motor": [ "Moves head from side to side", "Holds head up on tummy", "Kicks legs on back" ], "fine_motor_vision": [ "Holds hands partly open", "Grasps a finger", "Follows moving objects" ], "speech_language_hearing": [ "Makes cooing sounds", "Smiles when talked to", "Turns head to sounds" ], "social_emotional_play": [ "Smiles back at you", "Watches own hands", "Cries to communicate needs" ] }, "red_flags": [ "Doesn't respond to loud sounds", "Doesn't watch things move", "Doesn't smile at people", "Doesn't bring hands to mouth" ] },
-        { "age_group": "4 months", "domains": { "gross_motor": [ "Holds head steady without support", "Pushes down on legs when feet are on hard surface", "Rolls from tummy to back" ], "fine_motor_vision": [ "Brings hands to mouth", "Uses hands and eyes together", "Reaches for toy with one hand" ], "speech_language_hearing": [ "Babbles with expression", "Copies sounds you make", "Cries in different ways for hunger/pain" ], "social_emotional_play": [ "Smiles spontaneously", "Likes to play with people", "Copies some movements and facial expressions" ] }, "red_flags": [ "Doesn't watch things move", "Doesn't smile at people", "Can't hold head steady", "Doesn't coo or make sounds" ] },
-        { "age_group": "6 months", "domains": { "gross_motor": [ "Rolls over both directions", "Sits without support", "Supports weight on legs" ], "fine_motor_vision": [ "Passes toy from hand to hand", "Rakes with fingers to pick up things" ], "speech_language_hearing": [ "Responds to own name", "Begins to say consonant sounds (jabbering)", "Responds to sounds by making sounds" ], "social_emotional_play": [ "Knows familiar faces", "Likes to look at self in mirror", "Responds to other people's emotions" ] }, "red_flags": [ "Doesn't try to get things in reach", "Shows no affection for caregivers", "Doesn't respond to sounds around them", "Has difficulty getting things to mouth" ] },
-        { "age_group": "9 months", "domains": { "gross_motor": [ "Stands holding on", "Can get into sitting position", "Sits without support", "Crawls" ], "fine_motor_vision": [ "Picks up things like cereal between thumb and index finger", "Moves things smoothly from one hand to other" ], "speech_language_hearing": [ "Understands 'no'", "Makes a lot of different sounds like 'mamamama'", "Points to things" ], "social_emotional_play": [ "May be clingy with familiar adults", "Has favorite toys", "Plays peek-a-boo" ] }, "red_flags": [ "Doesn't bear weight on legs with support", "Doesn't sit with help", "Doesn't babble", "Doesn't respond to own name" ] },
-        { "age_group": "12 months", "domains": { "gross_motor": [ "Cruises holding furniture", "May stand alone", "May take a few steps" ], "fine_motor_vision": [ "Puts things in a container", "Lets things go voluntarily", "Pokes with index finger" ], "speech_language_hearing": [ "Uses simple gestures (waving)", "Says 'mama' and 'dada'", "Tries to repeat words you say" ], "social_emotional_play": [ "Cries when mom/dad leaves", "Hands you a book to read", "Puts out arm/leg to help with dressing" ] }, "red_flags": [ "Doesn't crawl", "Can't stand when supported", "Doesn't search for hidden objects", "Doesn't say single words", "Loses skills they once had" ] },
-        { "age_group": "18 months", "domains": { "gross_motor": [ "Walks alone", "May walk up steps and run", "Pulls toys while walking" ], "fine_motor_vision": [ "Scribbles on own", "Can help undress herself", "Drinks from a cup", "Eats with a spoon" ], "speech_language_hearing": [ "Says several single words", "Says and shakes head 'no'", "Points to show someone what they want" ], "social_emotional_play": [ "Likes to hand things to others as play", "Shows affection to familiar people", "Plays simple pretend, such as feeding a doll" ] }, "red_flags": [ "Doesn't point to show things", "Can't walk", "Doesn't know what familiar things are for", "Doesn't copy others", "Doesn't gain new words" ] },
-        { "age_group": "2 years", "domains": { "gross_motor": [ "Stands on tiptoe", "Kicks a ball", "Begins to run", "Walks up/down stairs holding on" ], "fine_motor_vision": [ "Builds towers of 4+ blocks", "Might use one hand more than other", "Draws straight lines/circles" ], "speech_language_hearing": [ "Points to things or pictures when named", "Knows names of familiar people/body parts", "Says sentences with 2 to 4 words" ], "social_emotional_play": [ "Copies others, especially adults and older children", "Gets excited when with other children", "Shows more independence" ] }, "red_flags": [ "Doesn't use 2-word phrases", "Doesn't know what to do with common things", "Doesn't copy actions or words", "Can't walk steadily" ] },
-        { "age_group": "3 years", "domains": { "gross_motor": [ "Climbs well", "Runs easily", "Pedals a tricycle", "Walks up/down stairs one foot per step" ], "fine_motor_vision": [ "Can work toys with buttons/levers", "Turns book pages one at a time", "Builds towers of 6+ blocks" ], "speech_language_hearing": [ "Follows instructions with 2 or 3 steps", "Can name most familiar things", "Says first name, age, and sex", "Talks well enough for strangers to understand most of the time" ], "social_emotional_play": [ "Copies adults and friends", "Shows affection for friends without prompting", "Takes turns in games", "Shows concern for crying friend" ] }, "red_flags": [ "Falls down a lot or has trouble with stairs", "Drools or has very unclear speech", "Can't work simple toys", "Doesn't speak in sentences", "Doesn't want to play with other children or toys" ] },
-        { "age_group": "4 years", "domains": { "gross_motor": [ "Hops and stands on one foot up to 2 seconds", "Catches a bounced ball most of the time", "Pours, cuts with supervision, and mashes own food" ], "fine_motor_vision": [ "Draws a person with 2 to 4 body parts", "Uses scissors", "Starts to copy some capital letters" ], "speech_language_hearing": [ "Knows some basic rules of grammar, such as correctly using 'he' and 'she'", "Sings a song or says a poem from memory", "Tells stories" ], "social_emotional_play": [ "Enjoys doing new things", "Plays 'Mom' and 'Dad'", "Is more and more creative with make-believe play", "Would rather play with other children than by themselves" ] }, "red_flags": [ "Can't jump in place", "Has trouble scribbling", "Shows no interest in interactive games/make-believe", "Ignores other children or people outside the family", "Resists dressing, sleeping, and using the toilet" ] },
-        { "age_group": "5 years", "domains": { "gross_motor": [ "Stands on one foot for 10 seconds or longer", "Hops; may be able to skip", "Can do a somersault", "Uses a fork and spoon and sometimes a table knife" ], "fine_motor_vision": [ "Copies a triangle and other geometric shapes", "Draws a person with at least 6 body parts", "Prints some letters or numbers" ], "speech_language_hearing": [ "Speaks very clearly", "Tells a simple story using full sentences", "Uses future tense; for example, 'I will go to the store'", "Says name and address" ], "social_emotional_play": [ "Wants to please friends", "Wants to be like friends", "More likely to agree with rules", "Likes to sing, dance, and act" ] }, "red_flags": [ "Doesn't show a wide range of emotions", "Shows extreme behavior (unusually fearful, aggressive, shy, or sad)", "Unusually withdrawn and not active", "Is easily distracted, has trouble focusing on one activity for more than 5 minutes", "Doesn't respond to people, or responds only superficially" ] }
-    ];
+const MILESTONES = [
+  {
+    age_group: "2 months", months: 2,
+    domains: {
+      gross:  ["Moves head side to side when prone","Holds head up briefly during tummy time","Kicks legs symmetrically when supine"],
+      fine:   ["Holds hands partially open at rest","Grasps examiner's finger reflexively","Follows a moving face or object to midline"],
+      speech: ["Produces comfort sounds (cooing)","Startles or stills to sudden sounds","Turns eyes toward sound source"],
+      social: ["Social smile in response to a face","Watches own hands with interest","Cries differentially to communicate needs"]
+    },
+    flags: ["No response to loud sounds","No visual tracking of faces","No social smile by 8 weeks","Persistent fisting of hands"]
+  },
+  {
+    age_group: "4 months", months: 4,
+    domains: {
+      gross:  ["Holds head steady without support","Bears weight through legs when held standing","Rolls from prone to supine"],
+      fine:   ["Brings hands together at midline","Reaches for a dangled object","Follows a moving object through 180°"],
+      speech: ["Babbles with varied intonation","Vocalises in response to speech","Laughs aloud"],
+      social: ["Smiles spontaneously","Shows pleasure in social interaction","Begins to show displeasure"]
+    },
+    flags: ["No head control","Cannot follow objects past midline","No vocalisation","Does not smile spontaneously"]
+  },
+  {
+    age_group: "6 months", months: 6,
+    domains: {
+      gross:  ["Rolls in both directions","Sits briefly with arm support","Bears full weight when supported standing"],
+      fine:   ["Transfers objects hand to hand","Rakes objects with fingers","Reaches with either hand"],
+      speech: ["Responds to own name","Vocalises consonant-vowel strings","Localises sound laterally"],
+      social: ["Recognises familiar faces","Enjoys mirror image","Beginning stranger awareness"]
+    },
+    flags: ["No reaching for objects","No affection shown to caregivers","No response to surrounding sounds","Cannot bear weight through legs"]
+  },
+  {
+    age_group: "9 months", months: 9,
+    domains: {
+      gross:  ["Sits independently with steady balance","Stands holding furniture","Crawls on hands and knees"],
+      fine:   ["Developing pincer grasp","Passes objects between hands intentionally","Bangs two objects together"],
+      speech: ["Understands 'no'","Produces mama/dada non-specifically","Uses gesture to communicate"],
+      social: ["Displays separation anxiety","Has preferred toys","Plays social games (peek-a-boo)"]
+    },
+    flags: ["Cannot sit unsupported","Cannot bear weight on legs","No babbling","Does not respond to own name"]
+  },
+  {
+    age_group: "12 months", months: 12,
+    domains: {
+      gross:  ["Cruises along furniture","May stand unsupported momentarily","May take first independent steps"],
+      fine:   ["Neat pincer grasp established","Releases objects into container voluntarily","Pokes with index finger"],
+      speech: ["Uses 1–2 words with meaning","Understands simple commands with gesture","Uses communicative gestures (waving, pointing)"],
+      social: ["Protests caregiver separation","Initiates joint attention","Cooperates with dressing"]
+    },
+    flags: ["Not crawling","Cannot pull to stand","No words","No communicative pointing or waving","Loss of previously acquired skills"]
+  },
+  {
+    age_group: "18 months", months: 18,
+    domains: {
+      gross:  ["Walks independently","Begins to run (unsteadily)","Walks upstairs with hand held"],
+      fine:   ["Scribbles spontaneously","Drinks from a cup","Feeds self with a spoon"],
+      speech: ["10+ recognisable words","Uses 'no' meaningfully","Points to request and to show"],
+      social: ["Shows affection to familiar people","Begins simple pretend play","Brings books to adult to share"]
+    },
+    flags: ["Not walking","Fewer than 6 words","No pointing to show interest","No pretend play","No symbolic gestures"]
+  },
+  {
+    age_group: "2 years", months: 24,
+    domains: {
+      gross:  ["Runs without falling","Kicks a ball","Walks up and down stairs holding rail"],
+      fine:   ["Builds tower of 6+ bricks","Turns pages one at a time","Copies a vertical line"],
+      speech: ["50+ words, combining 2 words meaningfully","Names familiar objects in pictures","Follows 2-step instructions"],
+      social: ["Imitates household activities","Parallel play alongside peers","Increasing autonomy; resists direction"]
+    },
+    flags: ["No 2-word phrases","Cannot follow simple instructions","No imitation of actions or words","Unsteady gait"]
+  },
+  {
+    age_group: "3 years", months: 36,
+    domains: {
+      gross:  ["Climbs confidently","Runs well","Rides a tricycle","Walks upstairs alternating feet"],
+      fine:   ["Copies a circle","Builds tower of 9+ bricks","Threads large beads"],
+      speech: ["Speech understood by strangers","Names own age and sex","Follows 3-part commands"],
+      social: ["Engages in cooperative and role play","Shows concern for upset peers","Takes turns in simple games"]
+    },
+    flags: ["Frequent falls or poor stair climbing","Unclear speech to familiar adults","Cannot manage simple toys or puzzles","No interest in peer play","Does not use sentences"]
+  },
+  {
+    age_group: "4 years", months: 48,
+    domains: {
+      gross:  ["Hops on one foot","Catches a bounced ball","Climbs playground equipment with confidence"],
+      fine:   ["Draws a person with 4+ body parts","Copies a cross","Uses scissors along a line"],
+      speech: ["Uses grammatically complete sentences","Tells a simple narrative","Sings familiar songs from memory"],
+      social: ["Engages in elaborate make-believe","Prefers peer play to solitary play","Negotiates and shares with prompting"]
+    },
+    flags: ["Cannot hop","Cannot draw recognisable figures","Unintelligible speech to strangers","No interest in make-believe","Ignores peers consistently"]
+  },
+  {
+    age_group: "5 years", months: 60,
+    domains: {
+      gross:  ["Stands on one foot 10+ seconds","Skips","Catches a small ball reliably"],
+      fine:   ["Copies a triangle","Draws recognisable person with 6+ parts","Writes own name"],
+      speech: ["Speaks clearly in full sentences","Uses past and future tense correctly","Tells a coherent story with beginning, middle, and end"],
+      social: ["Agrees to and understands rules","Distinguishes real from pretend","Shows empathy and labels emotions in others"]
+    },
+    flags: ["Very limited emotional range","Extreme or disproportionate behaviour","Highly distractible; cannot sustain a task for 5 minutes","Superficial or absent social engagement","Significant speech intelligibility concerns"]
+  }
+];
 
-    // --- CALCULATOR LOGIC ---
-    function calculateMilestones() {
-        const dobInput = document.getElementById('dob').value;
-        const gestationInput = document.getElementById('gestation').value;
-        const resultSection = document.getElementById('result-section');
-        const ageDisplay = document.getElementById('age-display');
-        const contentDisplay = document.getElementById('content-display');
-        
-        if (!dobInput) { alert("Please select a date of birth."); return; }
+const ORDER = [2,4,6,9,12,18,24,36,48,60];
 
-        const dob = new Date(dobInput);
-        const today = new Date();
-        
-        if (dob > today) {
-            alert("Date of birth cannot be in the future.");
-            return;
-        }
+function getAutoIndex(months) {
+  for (let i = 0; i < ORDER.length; i++) {
+    if (months < ORDER[i]) return Math.max(0, i - 1);
+  }
+  return ORDER.length - 1;
+}
 
-        // Accurate age in days and months
-        const diffTime = Math.abs(today - dob);
-        const chronDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        const chronMonths = chronDays / 30.437; // average days in a month
+let activeIdx = 0;
+let tabIndices = [];
 
-        let displayAgeText = `Chronological Age: ${Math.floor(chronMonths/12)}y ${Math.floor(chronMonths%12)}m`;
-        let assessedMonths = chronMonths;
-        let correctionText = "";
+function runAssessment() {
+  const errEl = document.getElementById('err');
+  errEl.classList.remove('show');
 
-        // Clinical Rule: Only correct for prematurity if born < 37 weeks AND chronological age is under 2 years
-        const ga = parseInt(gestationInput) || 40;
-        if (ga < 37 && chronMonths < 24) {
-            const prematureDays = (40 - ga) * 7;
-            const correctedDays = chronDays - prematureDays;
-            assessedMonths = Math.max(0, correctedDays / 30.437);
-            
-            const corrY = Math.floor(assessedMonths / 12);
-            const corrM = Math.floor(assessedMonths % 12);
-            correctionText = `<span class="correction-note">Corrected Age: ${corrY > 0 ? corrY + 'y ' : ''}${corrM}m</span>`;
-        } else if (ga < 37 && chronMonths >= 24) {
-            correctionText = `<span class="correction-note">Prematurity correction stops after 2 years.</span>`;
-        }
+  const dobVal = document.getElementById('dob').value;
+  if (!dobVal) { errEl.textContent = 'Please enter a date of birth to continue.'; errEl.classList.add('show'); return; }
 
-        let targetGroup = "";
-        if (assessedMonths >= 72) {
-             alert("Child is 6 years or older. This tool tracks up to 5 years.");
-             return;
-        }
-        else if (assessedMonths >= 60) targetGroup = "5 years";
-        else if (assessedMonths >= 48) targetGroup = "4 years";
-        else if (assessedMonths >= 36) targetGroup = "3 years";
-        else if (assessedMonths >= 24) targetGroup = "2 years";
-        else if (assessedMonths >= 18) targetGroup = "18 months";
-        else if (assessedMonths >= 12) targetGroup = "12 months";
-        else if (assessedMonths >= 9) targetGroup = "9 months";
-        else if (assessedMonths >= 6) targetGroup = "6 months";
-        else if (assessedMonths >= 4) targetGroup = "4 months"; 
-        else if (assessedMonths >= 2) targetGroup = "2 months";
-        else {
-             alert("Child is under 2 months corrected age. Use newborn guidelines.");
-             return;
-        }
+  const dob = new Date(dobVal);
+  const today = new Date();
+  if (dob > today) { errEl.textContent = 'Date of birth cannot be a future date.'; errEl.classList.add('show'); return; }
 
-        const data = milestoneData.find(m => m.age_group === targetGroup);
+  const diffDays = Math.floor((today - dob) / 86400000);
+  const chronMonths = diffDays / 30.437;
 
-        ageDisplay.innerHTML = `${displayAgeText} <br> ${correctionText} <strong>Assessing: ${targetGroup} Milestones</strong>`;
-        
-        let htmlContent = "";
-        const domains = [
-            { key: "gross_motor", name: "👟 Gross Motor", class: "card-gross" },
-            { key: "fine_motor_vision", name: "🖍️ Fine Motor & Vision", class: "card-fine" },
-            { key: "speech_language_hearing", name: "🗣️ Speech & Language", class: "card-speech" },
-            { key: "social_emotional_play", name: "🧸 Social & Emotional", class: "card-social" }
-        ];
+  const ga = parseInt(document.getElementById('gestation').value) || 40;
+  let assessMonths = chronMonths;
+  let correctedAge = null;
+  let corrNote = '';
 
-        domains.forEach(d => {
-            htmlContent += `<div class="domain-card ${d.class}"><h3>${d.name}</h3><ul>`;
-            data.domains[d.key].forEach(item => { htmlContent += `<li>${item}</li>`; });
-            htmlContent += `</ul></div>`;
-        });
+  if (ga < 37 && chronMonths < 24) {
+    const premDays = (40 - ga) * 7;
+    const corrDays = Math.max(0, diffDays - premDays);
+    assessMonths = corrDays / 30.437;
+    const cY = Math.floor(assessMonths / 12);
+    const cM = Math.floor(assessMonths % 12);
+    correctedAge = (cY > 0 ? cY + 'y ' : '') + cM + 'm';
+  } else if (ga < 37) {
+    corrNote = 'Prematurity correction not applied — child is over 24 months.';
+  }
 
-        htmlContent += `<div class="red-flags-card"><h3>🚩 Clinical Red Flags (Act Early)</h3><ul>`;
-        data.red_flags.forEach(flag => { htmlContent += `<li>${flag}</li>`; });
-        htmlContent += `</ul></div>`;
+  if (assessMonths >= 72) { errEl.textContent = 'This tool covers from 2 months to 5 years of age.'; errEl.classList.add('show'); return; }
+  if (assessMonths < 2)   { errEl.textContent = 'Child is under 2 months corrected age — please refer to newborn developmental guidelines.'; errEl.classList.add('show'); return; }
 
-        contentDisplay.innerHTML = htmlContent;
-        resultSection.style.display = "block";
-    }
+  const cY = Math.floor(chronMonths / 12);
+  const cM = Math.floor(chronMonths % 12);
+  const chronStr = (cY > 0 ? cY + 'y ' : '') + cM + 'm';
+
+  // Build age block
+  let ageHTML = `
+    <div class="result-age-row">
+      <span class="age-label">Chronological age</span>
+      <span class="age-val">${chronStr}</span>
+    </div>`;
+  if (correctedAge) {
+    ageHTML += `
+    <div class="result-age-row">
+      <span class="age-label">Corrected age</span>
+      <span class="age-val">${correctedAge}<span class="corrected-badge">Corrected</span></span>
+    </div>`;
+  }
+  if (corrNote) {
+    ageHTML += `<div style="font-size:11px;color:var(--ink-faint);margin-top:4px;">${corrNote}</div>`;
+  }
+  document.getElementById('age-block').innerHTML = ageHTML;
+
+  // Determine tab set
+  const autoIdx = getAutoIndex(assessMonths);
+  tabIndices = [];
+  if (autoIdx > 0) tabIndices.push(autoIdx - 1);
+  tabIndices.push(autoIdx);
+  if (autoIdx + 1 < ORDER.length) tabIndices.push(autoIdx + 1);
+  activeIdx = autoIdx;
+
+  renderTabs(autoIdx);
+  renderMilestone(activeIdx);
+
+  const resEl = document.getElementById('results');
+  resEl.style.display = 'block';
+  resEl.classList.remove('fade-up');
+  void resEl.offsetWidth;
+  resEl.classList.add('fade-up');
+}
+
+function renderTabs(autoIdx) {
+  const tabsEl = document.getElementById('tabs');
+  tabsEl.innerHTML = '';
+  tabIndices.forEach(idx => {
+    const btn = document.createElement('button');
+    btn.className = 'no-outline m-tab' + (idx === activeIdx ? ' active' : '');
+    btn.style.cssText = 'border:none;font-family:inherit;';
+    const isAuto = idx === autoIdx;
+    btn.innerHTML = MILESTONES[idx].age_group + (isAuto ? '<span class="tab-indicator"></span>' : '');
+    btn.title = isAuto ? 'Recommended for this age' : '';
+    btn.onclick = () => { activeIdx = idx; updateTabs(); renderMilestone(idx); };
+    btn.id = 'tab-' + idx;
+    tabsEl.appendChild(btn);
+  });
+}
+
+function updateTabs() {
+  document.querySelectorAll('.m-tab').forEach(b => b.classList.remove('active'));
+  const a = document.getElementById('tab-' + activeIdx);
+  if (a) a.classList.add('active');
+}
+
+function renderMilestone(idx) {
+  const d = MILESTONES[idx];
+  const domainDefs = [
+    { key: 'gross',  cls: 'gross',  title: 'Gross motor' },
+    { key: 'fine',   cls: 'fine',   title: 'Fine motor & vision' },
+    { key: 'speech', cls: 'speech', title: 'Speech, language & hearing' },
+    { key: 'social', cls: 'social', title: 'Social & emotional' },
+  ];
+
+  let html = `<div class="section-heading">Expected milestones — ${d.age_group}</div>`;
+  html += '<div class="domain-grid">';
+  domainDefs.forEach(dom => {
+    html += `<div class="domain-card ${dom.cls}">
+      <div class="domain-title">${dom.title}</div>
+      <ul class="milestone-list">`;
+    d.domains[dom.key].forEach(item => {
+      html += `<li><span class="m-bullet"></span>${item}</li>`;
+    });
+    html += `</ul></div>`;
+  });
+  html += '</div>';
+
+  html += `<div class="flags-panel">
+    <div class="flags-title">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+        <path d="M2 11.5V2L8.5 4.5L5 7L8.5 9.5L2 11.5Z" stroke="#B84040" stroke-width="1.2" stroke-linejoin="round"/>
+      </svg>
+      Clinical red flags — act early if present
+    </div>
+    <div class="flags-grid">`;
+  d.flags.forEach(f => {
+    html += `<div class="flag-item"><span class="flag-dash">—</span>${f}</div>`;
+  });
+  html += `</div></div>`;
+
+  const out = document.getElementById('milestone-output');
+  out.innerHTML = html;
+  out.classList.remove('fade-up');
+  void out.offsetWidth;
+  out.classList.add('fade-up');
+}
 </script>
-
 </body>
 </html>
