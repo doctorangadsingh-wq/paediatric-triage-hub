@@ -131,4 +131,624 @@
     border: 1px solid var(--border-strong); border-radius: 20px; cursor: pointer;
     background: transparent; color: var(--ink-soft); transition: all 0.18s; outline: none;
   }
-  .m-tab:hover, .m-tab:focus-visible { border-color
+  .m-tab:hover, .m-tab:focus-visible { border-color: var(--ink); color: var(--ink); }
+  .m-tab:focus-visible { box-shadow: 0 0 0 3px rgba(26,22,16,0.15); }
+  .m-tab.active { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+  .m-tab .tab-indicator {
+    display: inline-block; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--sage); margin-left: 5px; vertical-align: middle; margin-top: -2px;
+  }
+
+  /* Section heading */
+  .section-heading {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-faint); margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+  }
+  .section-heading::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* Domain grid */
+  .domain-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  @media(max-width:560px){ .domain-grid { grid-template-columns: 1fr; } }
+
+  .domain-card { border-radius: var(--radius-lg); padding: 20px; border: 1px solid transparent; }
+  .domain-card.gross  { background: var(--plum-light);  border-color: rgba(139,106,150,0.2); }
+  .domain-card.fine   { background: var(--gold-light);  border-color: rgba(196,153,58,0.2); }
+  .domain-card.speech { background: var(--sage-light);  border-color: rgba(122,158,142,0.2); }
+  .domain-card.social { background: var(--slate-light); border-color: rgba(106,126,150,0.2); }
+
+  .domain-title {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid rgba(26,22,16,0.1);
+  }
+  .domain-card.gross  .domain-title { color: var(--plum); }
+  .domain-card.fine   .domain-title { color: var(--gold); }
+  .domain-card.speech .domain-title { color: var(--sage); }
+  .domain-card.social .domain-title { color: var(--slate); }
+
+  .milestone-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .milestone-list li { font-size: 13px; color: var(--ink-soft); display: flex; align-items: flex-start; gap: 9px; line-height: 1.45; }
+  .m-bullet {
+    width: 16px; height: 16px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid currentColor;
+    margin-top: 1px; display: flex; align-items: center; justify-content: center;
+  }
+
+  /* Red Flags */
+  .flags-panel {
+    background: var(--danger-light); border: 1px solid rgba(184,64,64,0.2);
+    border-radius: var(--radius-lg); padding: 22px; margin-top: 12px;
+  }
+  .flags-title {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--danger); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid rgba(184,64,64,0.15);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .flags-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; }
+  @media(max-width:480px){ .flags-grid { grid-template-columns: 1fr; } }
+  .flag-item { font-size: 13px; color: var(--danger); display: flex; align-items: flex-start; gap: 8px; line-height: 1.45; font-weight: 500; }
+  .flag-dash { font-size: 16px; line-height: 1; margin-top: -1px; flex-shrink: 0; opacity: 0.6; }
+
+  /* Utilities */
+  .disclaimer {
+    margin-top: 24px; padding: 16px 20px; background: var(--cream); border: 1px solid var(--border);
+    border-radius: var(--radius); font-size: 12px; color: var(--ink-faint); line-height: 1.6; display: flex; gap: 10px; align-items: flex-start;
+  }
+  .print-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+    margin-top: 16px; padding: 10px; background: transparent; color: var(--ink);
+    border: 1px solid var(--border-strong); border-radius: var(--radius); cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; transition: 0.2s;
+  }
+  .print-btn:hover { background: rgba(26,22,16,0.05); }
+
+  footer { background: var(--ink); color: rgba(250,247,242,0.35); text-align: center; font-size: 11px; padding: 20px; letter-spacing: 0.03em; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  .fade-up { animation: fadeUp 0.35s ease-out forwards; }
+
+  /* ── PRINT STYLES ── */
+  @media print {
+    * { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    body { background: #fff; color: #000; font-size: 12pt; }
+    .site-header, .hero, .form-panel, .milestone-tabs, .print-btn, footer { display: none !important; }
+    .main-wrap { padding: 0; max-width: 100%; margin: 0; }
+    #results { display: block !important; margin-top: 0; }
+    
+    .print-header { display: block; margin-bottom: 24px; border-bottom: 2px solid #000; padding-bottom: 12px; }
+    .print-header h2 { font-family: 'DM Serif Display', serif; font-size: 20px; margin-bottom: 4px; color: #000; }
+    .print-header p { font-size: 12px; color: #333; }
+
+    .result-header { border-bottom: none; padding-bottom: 0; margin-bottom: 20px; }
+    .domain-card { background: #fff !important; border: 1px solid #ddd !important; border-left-width: 6px !important; break-inside: avoid; }
+    
+    .domain-card.gross { border-left-color: var(--plum) !important; }
+    .domain-card.fine { border-left-color: var(--gold) !important; }
+    .domain-card.speech { border-left-color: var(--sage) !important; }
+    .domain-card.social { border-left-color: var(--slate) !important; }
+    
+    .flags-panel { background: #fff !important; border: 2px solid #000 !important; page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-brand"><span class="header-title">Child Developmental Screening Tool</span></div>
+  <span class="header-tag">Clinical Reference</span>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Paediatric Assessment</div>
+    <h1>Screening Tool for<br><em>Developmental</em> Milestones</h1>
+    <p class="hero-desc">Evidence-based milestone review across four developmental domains, with clinical prematurity correction for infants born before 37 weeks gestation.</p>
+  </div>
+</div>
+
+<div class="main-wrap">
+  <div class="form-panel">
+    <div class="form-section-label">Patient details</div>
+    <div class="form-row">
+      <div class="field">
+        <label for="dob">Date of birth</label>
+        <span class="field-hint">Select the child's exact date of birth</span>
+        <input type="date" id="dob">
+      </div>
+      <div class="field">
+        <label for="gestation">Gestational age at birth (weeks)</label>
+        <span class="field-hint">Enter if premature — leave blank or enter 40 if term</span>
+        <input type="number" id="gestation" min="20" max="42" placeholder="40">
+      </div>
+    </div>
+    <div class="error-msg" id="err"></div>
+    <button class="submit-btn" id="btn-generate">
+      <span>Generate milestone report</span><span class="btn-arrow">→</span>
+    </button>
+  </div>
+
+  <div id="results">
+    <div class="print-header">
+      <h2>Developmental Screening Report</h2>
+      <p id="print-date"></p>
+    </div>
+    
+    <div class="result-header">
+      <div class="result-ages" id="age-block"></div>
+      <div class="milestone-tabs" id="tabs" role="tablist" aria-label="Milestone Age Groups"></div>
+    </div>
+    
+    <div id="milestone-output" role="tabpanel" aria-live="polite"></div>
+    
+    <button class="print-btn" id="btn-print">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 6 2 18 2 18 9"></polyline>
+        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+        <rect x="6" y="14" width="12" height="8"></rect>
+      </svg>
+      Print to Clinical Records
+    </button>
+    
+    <div class="disclaimer">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6.5" stroke="#9A9188"/><rect x="6.4" y="5.5" width="1.2" height="5" rx="0.6" fill="#9A9188"/><rect x="6.4" y="3" width="1.2" height="1.5" rx="0.6" fill="#9A9188"/></svg>
+      This tool is intended for clinical reference only and does not constitute a diagnostic assessment. Results should be interpreted by a qualified paediatric clinician in the context of a full developmental history and clinical examination.
+    </div>
+  </div>
+</div>
+
+<footer>Child Developmental Screening Tool &mdash; For clinical use only</footer>
+
+<script>
+/**
+ * CLINICAL DATA CONFIGURATION
+ * Structurally isolated for easy extraction to JSON/API.
+ * Version: 1.1 (ASQ-3 / EYFS Aligned)
+ */
+const CLINICAL_DATA = {
+  version: "1.1",
+  source_guidelines: "ASQ-3 / EYFS Development Matters / Sheridan",
+  milestones: [
+    {
+      age_group: "2 months",
+      domains: {
+        gross: ["Moves head from side to side while on back", "Holds head up longer than a few seconds when on tummy", "Kicks legs symmetrically when lying on back", "Waves arms and legs, wiggles, and squirms"],
+        fine: ["Holds hands open or partly open when awake", "Grasps a finger if it touches the palm of the hand", "Looks at objects that are 8-10 inches away", "Follows moving objects or people with eyes"],
+        speech: ["Makes throaty or gurgling sounds", "Makes cooing sounds such as ooo, gah, and aah", "Smiles when talked to", "Startles or stills to sudden sounds"],
+        social: ["Smiles back when smiled at", "Watches own hands", "Tries to suck even when not feeding", "Cries differentially to communicate needs"]
+      },
+      flags: ["Did not pass the newborn hearing screening test", "Does not move both hands and both legs equally well", "Concerns about vision or tracking objects", "Persistent fisting"]
+    },
+    {
+      age_group: "3 months",
+      domains: {
+        gross: ["Lifts head and chest from floor during tummy time", "Kicks vigorously sometimes alternating legs", "Holds head steady when held in a sitting position", "Pushes down on legs when feet are on a flat surface"],
+        fine: ["Brings hands together over chest", "Engages in some finger play", "Holds a toy briefly when put in hand", "Hands remain open most of the time"],
+        speech: ["Recognises a familiar voice", "Vocalises when spoken to beginning conversations", "Responds to environmental sounds", "Stops crying when hearing a voice other than the primary caregiver"],
+        social: ["Smiles at carer or key person", "Begins to show emotion like squealing with delight", "Enjoys being held and having cuddles", "Maintains steady eye contact"]
+      },
+      flags: ["Does not respond to loud noises", "Does not respond to familiar voices or turn to own name", "Does not move both hands and both legs equally well", "Cannot hold head steady"]
+    },
+    {
+      age_group: "6 months",
+      domains: {
+        gross: ["Rolls over from back to front and front to back", "Sits with support holding head and back straight", "Straightens both arms and pushes whole chest off the floor", "Lifts legs high enough to see feet while on back"],
+        fine: ["Uses whole hand in palmar grasp", "Passes a toy from one hand to the other", "Reaches for and grasps a toy using both hands at once", "Picks up a toy and puts it in mouth"],
+        speech: ["Makes simple babbling noises like da-da", "Makes high-pitched squeals and laughs", "Turns to see where a loud sound came from", "Responds to rhythm and tunes"],
+        social: ["Acts differently toward strangers than familiar people", "Smiles or coos at self in a large mirror", "Plays by grabbing foot and putting it in mouth", "Enjoys attention and being with others"]
+      },
+      flags: ["Does not use both hands and both legs equally well", "Feet are not flat on the surface most of the time when supported to stand", "Too quiet or does not make sounds like other babies", "Shows no affection for caregivers"]
+    },
+    {
+      age_group: "9 months",
+      domains: {
+        gross: ["Sits unsupported leaning forward to maintain balance", "Covers floor area by crawling rolling and wriggling", "Pulls to a standing position using furniture for support", "Supports own weight while standing if hands are held"],
+        fine: ["Beginning to pick up small objects with a pincer grasp", "Bangs a toy against another toy in hand", "Picks up two small toys one in each hand", "Pokes at objects with index finger"],
+        speech: ["Responds to own name and understands simple words like no", "Points to objects of interest", "Babble is complex loud and tuneful", "Copies sounds made by caregivers"],
+        social: ["Plays nursery games like peek-a-boo or pat-a-cake", "Shows clear preference for familiar people with stranger anxiety", "Begins to feed self with finger food", "Stiffens body in annoyance or vocalises protest"]
+      },
+      flags: ["Does not use both hands and both legs equally well", "Does not make sounds or babble like other babies", "Cannot sit up straight for several minutes without support", "Does not respond to own name"]
+    },
+    {
+      age_group: "12 months",
+      domains: {
+        gross: ["Cruises around using furniture for support", "Stands alone and may walk a few steps", "Lowers self with control from standing to sitting", "Throws toys intentionally"],
+        fine: ["Picks up a crumb with the tips of thumb and a finger", "Drops toys into a container like a bowl or box", "Helps turn the pages of a book", "Puts a small toy down without dropping it"],
+        speech: ["Uses single words like Dadda or Mama", "Understands simple instructions like Come here", "Joins in with some songs", "Looks for out-of-sight objects indicating object permanence"],
+        social: ["Drinks from a cup or beaker independently", "Feeds self with a spoon or fork", "Rolls or throws a ball back to a partner", "May undress self by removing hats or socks"]
+      },
+      flags: ["Does not play with sounds or seem to make words", "Feet are not flat on the surface most of the time when standing", "Does not point to show things to adults", "Loss of previously acquired skills"]
+    },
+    {
+      age_group: "18 months",
+      domains: {
+        gross: ["Walks well and no longer uses arms to balance", "Can run but finds it difficult to negotiate obstacles", "Walks up steps holding hands", "Kneels and squats steadily to pick up toys"],
+        fine: ["Scribbles back and forth with a crayon or pencil", "Stacks three small blocks or toys", "Turns pages in a book not usually one by one", "Uses a spoon to eat with little spilling"],
+        speech: ["Uses between 6 and 20 clear words", "Understands many words and simple instructions", "Makes demands known by pointing with vocalisation", "Points to correct picture in a book when asked"],
+        social: ["Imitates everyday activities like feeding a doll", "Plays contently alone but likes security of near familiar practitioner", "Helps undress self", "Comes to adults when needing help"]
+      },
+      flags: ["Extremely upset by certain sounds smells or tastes and cannot be calmed", "Does not walk run or climb like other toddlers", "Does not participate in pretend play", "Loss of previously acquired skills"]
+    },
+    {
+      age_group: "2 years",
+      domains: {
+        gross: ["Runs competently with more control when negotiating obstacles", "Walks up and down stairs holding a handrail", "Rides large wheeled toys without pedals", "Jumps with both feet leaving the floor at the same time"],
+        fine: ["Turns pages of a book more than one at a time", "Joins and separates interlocking toys like Duplo", "Draws circles lines and dots", "Stacks six or seven small blocks or toys"],
+        speech: ["Vocabulary increases to approx 50 words and joins two words", "Names objects on sight like car or doll", "Follows three different separate directions without gestures", "Correctly uses pronouns like me I mine and you"],
+        social: ["Plays alongside other children in solitary play", "Feeds self well with spoon or fork and handles drinks without spilling", "Attempts to verbalise toilet needs", "Engages in role-play and make-believe activities"]
+      },
+      flags: ["Cannot understand most of what the child says", "Does not walk run and climb like other toddlers", "Does not put two or three words together", "Loss of previously acquired skills"]
+    },
+    {
+      age_group: "3 years",
+      domains: {
+        gross: ["Walks and runs on tip-toes", "Pedals and steers a tricycle", "Climbs and slides on equipment confidently", "Jumps forward at least 6 inches with both feet"],
+        fine: ["Uses child-safe scissors to open and close blades", "Strings small items like beads onto a shoelace", "Draws a face and attempts letters with preferred hand", "Copies a vertical and horizontal line without tracing"],
+        speech: ["Uses three or four-word sentences", "Frequently asks what and why questions", "Uses language for thinking and explaining what happened", "Counts reliably to three or four"],
+        social: ["Enjoys the company of other children and is beginning to make friends", "Engages in elaborate make-believe play", "Understands the concept of saying sorry and making up", "Puts on a coat jacket or shirt by themselves"]
+      },
+      flags: ["Others cannot understand most of what the child says", "Cannot follow simple instructions or negotiate solutions in play", "Flits from one thing to the next or becomes distressed if encouraged to do something different", "Loss of previously acquired skills"]
+    },
+    {
+      age_group: "4 years",
+      domains: {
+        gross: ["Can change direction while running and walk in a straight line", "Hops up and down on one foot without losing balance", "Catches a large ball with both hands", "Throws a ball overhand towards a person"],
+        fine: ["Cuts a paper in half on a straight line using scissors", "Draws a person with at least three features", "Unbuttons one or more buttons", "Copies shapes onto a piece of paper"],
+        speech: ["Speech is grammatically correct and uses endings like -s -ed -ing", "Retells stories and gives accounts of recent events", "Names at least five different colors", "Follows three unrelated directions"],
+        social: ["Friendships are increasingly valued and plays cooperatively", "Manages most personal care tasks independently", "Understands the importance of rules and tries to keep them", "Can wait for their turn"]
+      },
+      flags: ["Speech is not easily understood by unfamiliar adults", "Struggling heavily with toilet training", "Does not take part in pretend play or elaborate role-play", "Loss of previously acquired skills"]
+    },
+    {
+      age_group: "5 years",
+      domains: {
+        gross: ["Has good ball control and plays ball games with rules", "Skips using alternating feet", "Walks on tiptoes for 15 feet", "Balance is good and stands on one foot for 5 seconds"],
+        fine: ["Good control in mark making and forms letters accurately", "Prints first name", "Colors mostly within the lines in a coloring book", "Copies letters and shapes without tracing"],
+        speech: ["Uses language to share opinions and thinking", "Uses comparison words like heavier or smaller", "Finishes sentences using opposite words", "Counts up to 15 without making mistakes"],
+        social: ["Competent in all aspects of self-care and hygiene", "Uses the toilet independently wiping and flushing", "Usually takes turns and shares with other children", "Takes care of own possessions"]
+      },
+      flags: ["Cannot be understood by strangers", "Does not talk like other children their age", "Does not engage in co-operative play", "Loss of previously acquired skills"]
+    }
+  ]
+};
+
+const ORDER = [2, 3, 6, 9, 12, 18, 24, 36, 48, 60];
+
+// Calculate exact whole calendar months difference
+function getExactMonthsDiff(startDate, endDate) {
+  let months = (endDate.getFullYear() - startDate.getFullYear()) * 12;
+  months += endDate.getMonth() - startDate.getMonth();
+  // Subtract a month if the target day is earlier in the month than the start day
+  if (endDate.getDate() < startDate.getDate()) {
+    months--;
+  }
+  return months;
+}
+
+function getAutoIndex(wholeMonths) {
+  for (let i = 0; i < ORDER.length; i++) {
+    if (wholeMonths < ORDER[i]) {
+      return Math.max(0, i - 1);
+    }
+  }
+  return ORDER.length - 1;
+}
+
+function showError(msg) {
+  const errEl = document.getElementById('err');
+  errEl.textContent = msg;
+  errEl.classList.add('show');
+}
+
+function hideError() {
+  document.getElementById('err').classList.remove('show');
+}
+
+// ── STATE MANAGEMENT ──
+function saveState() {
+  const state = {
+    dob: document.getElementById('dob').value,
+    gestation: document.getElementById('gestation').value
+  };
+  localStorage.setItem('childScreenState', JSON.stringify(state));
+}
+
+function loadState() {
+  const saved = localStorage.getItem('childScreenState');
+  if (saved) {
+    try {
+      const state = JSON.parse(saved);
+      if (state.dob) document.getElementById('dob').value = state.dob;
+      if (state.gestation) document.getElementById('gestation').value = state.gestation;
+    } catch(e) {
+      console.warn("Failed to parse saved state");
+    }
+  }
+}
+
+let activeIdx = 0;
+let tabIndices = [];
+
+function runAssessment() {
+  hideError();
+  saveState();
+  
+  const dobVal = document.getElementById('dob').value;
+  if (!dobVal) { 
+    showError('Please enter a valid date of birth to continue.'); 
+    return; 
+  }
+
+  const dob = new Date(dobVal);
+  const today = new Date();
+  
+  if (dob > today) { 
+    showError('Date of birth cannot be a future date.'); 
+    return; 
+  }
+
+  const gaInput = document.getElementById('gestation').value;
+  let ga = 40; 
+  if (gaInput) {
+    ga = parseInt(gaInput, 10);
+    // Clinical boundary validation for gestational age
+    if (ga < 22 || ga > 42) {
+      showError('Gestational age must be between 22 and 42 weeks.');
+      return;
+    }
+  }
+
+  // 1. Calculate Chronological Age (Exact Months)
+  let chronMonths = getExactMonthsDiff(dob, today);
+  
+  // 2. Calculate Prematurity & Corrected Age
+  let assessMonths = chronMonths;
+  let correctedAgeStr = null;
+  let corrNote = '';
+
+  if (ga < 37) {
+    if (chronMonths < 24) {
+      // Calculate Corrected DOB
+      let correctedDob = new Date(dob);
+      let premDays = (40 - ga) * 7;
+      correctedDob.setDate(correctedDob.getDate() + premDays);
+      
+      // Calculate age from corrected DOB to ensure exact clinical month boundaries
+      let corrMonths = getExactMonthsDiff(correctedDob, today);
+      
+      // Prevent negative corrected age if assessed before expected due date
+      assessMonths = Math.max(0, corrMonths);
+      
+      const cY = Math.floor(assessMonths / 12);
+      const cM = assessMonths % 12;
+      correctedAgeStr = (cY > 0 ? cY + 'y ' : '') + cM + 'm';
+    } else {
+      corrNote = 'Prematurity correction not applied — child is over 24 months.';
+    }
+  }
+
+  // Boundary validations using exact months
+  if (assessMonths >= 72) { 
+    const errEl = document.getElementById('err');
+    errEl.innerHTML = '<strong>Child is over 6 years of age.</strong><br>This tool is validated for early years screening (up to 5 years). Please refer to school-aged cognitive and behavioural assessment pathways.'; 
+    errEl.classList.add('show'); 
+    return; 
+  }
+  if (assessMonths < 2) { 
+    showError('Child is under 2 months corrected age — please refer to newborn developmental guidelines.'); 
+    return; 
+  }
+
+  // Populate Print Header
+  document.getElementById('print-date').textContent = `Assessment Date: ${today.toLocaleDateString()}`;
+
+  // Build Age Display safely via DOM creation to avoid innerHTML injection
+  const ageBlock = document.getElementById('age-block');
+  ageBlock.innerHTML = ''; // Clear previous safely
+
+  const cY_chron = Math.floor(chronMonths / 12);
+  const cM_chron = chronMonths % 12;
+  const chronStr = (cY_chron > 0 ? cY_chron + 'y ' : '') + cM_chron + 'm';
+
+  // Helper to create age rows
+  const createAgeRow = (labelTxt, valTxt, showBadge) => {
+    const row = document.createElement('div');
+    row.className = 'result-age-row';
+    const label = document.createElement('span');
+    label.className = 'age-label';
+    label.textContent = labelTxt;
+    const val = document.createElement('span');
+    val.className = 'age-val';
+    val.textContent = valTxt;
+    if (showBadge) {
+      const badge = document.createElement('span');
+      badge.className = 'corrected-badge';
+      badge.textContent = 'Corrected';
+      val.appendChild(badge);
+    }
+    row.appendChild(label);
+    row.appendChild(val);
+    return row;
+  };
+
+  ageBlock.appendChild(createAgeRow('Chronological age', chronStr, false));
+  if (correctedAgeStr) {
+    ageBlock.appendChild(createAgeRow('Corrected age', correctedAgeStr, true));
+  }
+  if (corrNote) {
+    const noteEl = document.createElement('div');
+    noteEl.className = 'corr-note';
+    noteEl.textContent = corrNote;
+    ageBlock.appendChild(noteEl);
+  }
+
+  const autoIdx = getAutoIndex(assessMonths);
+  tabIndices = [];
+  if (autoIdx > 0) tabIndices.push(autoIdx - 1);
+  tabIndices.push(autoIdx);
+  if (autoIdx + 1 < ORDER.length) tabIndices.push(autoIdx + 1);
+  activeIdx = autoIdx;
+
+  renderTabs(autoIdx);
+  renderMilestone(activeIdx);
+
+  const resEl = document.getElementById('results');
+  resEl.style.display = 'block';
+  resEl.classList.remove('fade-up');
+  void resEl.offsetWidth;
+  resEl.classList.add('fade-up');
+}
+
+function renderTabs(autoIdx) {
+  const tabsEl = document.getElementById('tabs');
+  tabsEl.innerHTML = ''; 
+  tabIndices.forEach((idx, i) => {
+    const btn = document.createElement('button');
+    const isActive = idx === activeIdx;
+    
+    btn.className = 'm-tab' + (isActive ? ' active' : '');
+    btn.style.cssText = 'border:none;font-family:inherit;';
+    
+    // Build tab inner structure safely
+    btn.textContent = CLINICAL_DATA.milestones[idx].age_group;
+    if (idx === autoIdx) {
+      const ind = document.createElement('span');
+      ind.className = 'tab-indicator';
+      btn.appendChild(ind);
+      btn.title = 'Recommended for this age';
+    }
+
+    btn.id = 'tab-' + idx;
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    btn.setAttribute('aria-controls', 'milestone-output');
+    btn.setAttribute('tabindex', isActive ? '0' : '-1');
+    
+    btn.addEventListener('click', () => { 
+      activeIdx = idx; 
+      updateTabs(); 
+      renderMilestone(idx); 
+    });
+
+    btn.addEventListener('keydown', (e) => {
+      let targetIdx = -1;
+      if (e.key === 'ArrowRight') {
+        targetIdx = (i + 1) % tabIndices.length;
+      } else if (e.key === 'ArrowLeft') {
+        targetIdx = (i - 1 + tabIndices.length) % tabIndices.length;
+      }
+      
+      if (targetIdx !== -1) {
+        const targetBtn = document.getElementById('tab-' + tabIndices[targetIdx]);
+        if(targetBtn) {
+          targetBtn.focus();
+          targetBtn.click();
+        }
+      }
+    });
+
+    tabsEl.appendChild(btn);
+  });
+}
+
+function updateTabs() {
+  document.querySelectorAll('.m-tab').forEach(b => {
+    b.classList.remove('active');
+    b.setAttribute('aria-selected', 'false');
+    b.setAttribute('tabindex', '-1');
+  });
+  const a = document.getElementById('tab-' + activeIdx);
+  if (a) {
+    a.classList.add('active');
+    a.setAttribute('aria-selected', 'true');
+    a.setAttribute('tabindex', '0');
+  }
+}
+
+function renderMilestone(idx) {
+  const d = CLINICAL_DATA.milestones[idx];
+  const domainDefs = [
+    { key: 'gross',  cls: 'gross',  title: 'Gross motor' },
+    { key: 'fine',   cls: 'fine',   title: 'Fine motor & vision' },
+    { key: 'speech', cls: 'speech', title: 'Speech, language & hearing' },
+    { key: 'social', cls: 'social', title: 'Social & emotional' },
+  ];
+
+  const container = document.getElementById('milestone-output');
+  container.innerHTML = ''; 
+
+  // Section Heading
+  const heading = document.createElement('div');
+  heading.className = 'section-heading';
+  heading.textContent = `Expected milestones — ${d.age_group}`;
+  container.appendChild(heading);
+
+  // Domains Grid
+  const grid = document.createElement('div');
+  grid.className = 'domain-grid';
+
+  domainDefs.forEach(dom => {
+    const card = document.createElement('div');
+    card.className = `domain-card ${dom.cls}`;
+    
+    const title = document.createElement('div');
+    title.className = 'domain-title';
+    title.textContent = dom.title;
+    card.appendChild(title);
+
+    const list = document.createElement('ul');
+    list.className = 'milestone-list';
+    
+    d.domains[dom.key].forEach(itemText => {
+      const li = document.createElement('li');
+      const bullet = document.createElement('span');
+      bullet.className = 'm-bullet';
+      li.appendChild(bullet);
+      li.appendChild(document.createTextNode(itemText));
+      list.appendChild(li);
+    });
+    
+    card.appendChild(list);
+    grid.appendChild(card);
+  });
+  
+  container.appendChild(grid);
+
+  // Red Flags
+  const flagsPanel = document.createElement('div');
+  flagsPanel.className = 'flags-panel';
+  
+  const flagsTitle = document.createElement('div');
+  flagsTitle.className = 'flags-title';
+  flagsTitle.innerHTML = `<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 11.5V2L8.5 4.5L5 7L8.5 9.5L2 11.5Z" stroke="#B84040" stroke-width="1.2" stroke-linejoin="round"/></svg> Clinical red flags — act early if present`;
+  flagsPanel.appendChild(flagsTitle);
+
+  const flagsGrid = document.createElement('div');
+  flagsGrid.className = 'flags-grid';
+  
+  d.flags.forEach(flagText => {
+    const item = document.createElement('div');
+    item.className = 'flag-item';
+    const dash = document.createElement('span');
+    dash.className = 'flag-dash';
+    dash.textContent = '—';
+    item.appendChild(dash);
+    item.appendChild(document.createTextNode(flagText));
+    flagsGrid.appendChild(item);
+  });
+
+  flagsPanel.appendChild(flagsGrid);
+  container.appendChild(flagsPanel);
+
+  container.classList.remove('fade-up');
+  void container.offsetWidth;
+  container.classList.add('fade-up');
+}
+
+// Bind Event Listeners on Load
+document.addEventListener('DOMContentLoaded', () => {
+  loadState();
+  document.getElementById('btn-generate').addEventListener('click', runAssessment);
+  document.getElementById('btn-print').addEventListener('click', () => window.print());
+});
+
+</script>
+</body>
+</html>
