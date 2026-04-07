@@ -47,9 +47,12 @@
     height: 56px; position: sticky; top: 0; z-index: 100;
     border-bottom: 1px solid rgba(255,255,255,0.06);
   }
-  .header-brand { display: flex; align-items: center; gap: 12px; }
+  .header-brand { display: flex; align-items: center; gap: 12px; cursor: pointer; transition: opacity 0.2s; }
+  .header-brand:hover { opacity: 0.8; }
   .header-title { font-family: 'DM Serif Display', serif; font-size: 17px; letter-spacing: -0.01em; }
-  .header-tag { font-size: 11px; color: rgba(250,247,242,0.4); letter-spacing: 0.08em; text-transform: uppercase; }
+  .header-links { display: flex; gap: 16px; align-items: center; }
+  .header-link { font-size: 13px; color: var(--cream); text-decoration: none; opacity: 0.7; transition: opacity 0.2s; }
+  .header-link:hover { opacity: 1; }
 
   /* ── HERO ── */
   .hero { background: var(--ink); color: var(--cream); padding: 64px 40px 72px; position: relative; overflow: hidden; }
@@ -57,11 +60,6 @@
   .hero::before { top: -80px; right: -80px; width: 400px; height: 400px; border: 1px solid rgba(250,247,242,0.05); }
   .hero::after { top: -40px; right: -40px; width: 240px; height: 240px; border: 1px solid rgba(250,247,242,0.08); }
   .hero-inner { max-width: 760px; margin: 0 auto; position: relative; }
-  .hero-eyebrow {
-    display: inline-flex; align-items: center; gap: 8px; font-size: 11px;
-    letter-spacing: 0.1em; text-transform: uppercase; color: var(--sage); margin-bottom: 20px;
-  }
-  .hero-eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--sage); }
   .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 16px; }
   .hero h1 em { font-style: italic; color: rgba(250,247,242,0.5); }
   .hero-desc { font-size: 15px; color: rgba(250,247,242,0.55); max-width: 480px; line-height: 1.7; }
@@ -72,22 +70,31 @@
     background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg);
     padding: 36px; margin-top: -24px; position: relative; box-shadow: 0 4px 24px rgba(26,22,16,0.07);
   }
-  .form-section-label {
-    font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--ink-faint); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border);
-  }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+  .form-instruction { font-size: 14px; color: var(--ink-soft); margin-bottom: 24px; }
+  
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
   @media(max-width:540px){ .form-row { grid-template-columns: 1fr; } }
 
   .field { display: flex; flex-direction: column; gap: 7px; }
   .field label { font-size: 12px; font-weight: 500; color: var(--ink-soft); letter-spacing: 0.01em; }
   .field-hint { font-size: 11px; color: var(--ink-faint); margin-top: -3px; }
+  
   .field input {
     font-family: 'DM Sans', sans-serif; font-size: 14px; padding: 10px 14px;
     border: 1px solid var(--border-strong); border-radius: var(--radius); background: var(--cream);
     color: var(--ink); outline: none; transition: border-color 0.2s, box-shadow 0.2s;
   }
   .field input:focus { border-color: var(--sage); box-shadow: 0 0 0 3px rgba(122,158,142,0.15); background: #fff; }
+
+  /* Custom Date Group */
+  .date-group { display: flex; gap: 8px; }
+  .date-group input { flex: 1; text-align: center; }
+  .date-group input::placeholder { color: #A8A196; }
+  
+  /* Hide arrows on number inputs */
+  .date-group input::-webkit-outer-spin-button,
+  .date-group input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .date-group input[type=number] { -moz-appearance: textfield; }
 
   .error-msg {
     display: none; font-size: 13px; color: var(--danger); background: var(--danger-light);
@@ -173,6 +180,10 @@
     width: 16px; height: 16px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid currentColor;
     margin-top: 1px; display: flex; align-items: center; justify-content: center;
   }
+  .m-badge {
+    font-size: 9px; background: rgba(26,22,16,0.06); padding: 2px 6px; border-radius: 4px;
+    margin-left: 6px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-faint); white-space: nowrap;
+  }
 
   /* Red Flags */
   .flags-panel {
@@ -184,6 +195,10 @@
     color: var(--danger); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid rgba(184,64,64,0.15);
     display: flex; align-items: center; gap: 8px;
   }
+  
+  .flags-subheading { font-size: 11px; font-weight: 600; color: var(--danger); margin: 16px 0 8px; letter-spacing: 0.03em; }
+  .flags-subheading:first-of-type { margin-top: 0; }
+
   .flags-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; }
   @media(max-width:480px){ .flags-grid { grid-template-columns: 1fr; } }
   .flag-item { font-size: 13px; color: var(--danger); display: flex; align-items: flex-start; gap: 8px; line-height: 1.45; font-weight: 500; }
@@ -235,13 +250,16 @@
 <body>
 
 <header class="site-header">
-  <div class="header-brand"><span class="header-title">Child Developmental Screening Tool</span></div>
-  <span class="header-tag">Clinical Reference</span>
+  <div class="header-brand" id="btn-home">
+    <span class="header-title">Child Developmental Screening Tool</span>
+  </div>
+  <div class="header-links">
+    <a href="YOUR_PDF_LINK_HERE.pdf" target="_blank" class="header-link">References</a>
+  </div>
 </header>
 
 <div class="hero">
   <div class="hero-inner">
-    <div class="hero-eyebrow">Paediatric Assessment</div>
     <h1>Screening Tool for<br><em>Developmental</em> Milestones</h1>
     <p class="hero-desc">Evidence-based milestone review across five developmental domains, with clinical prematurity correction for infants born before 37 weeks gestation.</p>
   </div>
@@ -249,17 +267,21 @@
 
 <div class="main-wrap">
   <div class="form-panel">
-    <div class="form-section-label">Patient details</div>
+    <p class="form-instruction">Enter the child's details below to generate the appropriate milestone checklist and clinical red flags.</p>
     <div class="form-row">
       <div class="field">
-        <label for="dob">Date of birth</label>
-        <span class="field-hint">Select the child's exact date of birth</span>
-        <input type="date" id="dob">
+        <label>Date of birth</label>
+        <span class="field-hint">Day / Month / Year</span>
+        <div class="date-group">
+          <input type="number" id="dob-day" placeholder="DD" min="1" max="31">
+          <input type="number" id="dob-month" placeholder="MM" min="1" max="12">
+          <input type="number" id="dob-year" placeholder="YYYY" min="2010" max="2030">
+        </div>
       </div>
       <div class="field">
-        <label for="gestation">Gestational age at birth (weeks)</label>
-        <span class="field-hint">Enter if premature — leave blank or enter 40 if term</span>
-        <input type="number" id="gestation" min="20" max="42" placeholder="40">
+        <label for="gestation">Gestational age at birth</label>
+        <span class="field-hint">Enter if premature (leave blank for term)</span>
+        <input type="number" id="gestation" min="20" max="42" placeholder="40 weeks">
       </div>
     </div>
     <div class="error-msg" id="err"></div>
@@ -287,12 +309,12 @@
         <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
         <rect x="6" y="14" width="12" height="8"></rect>
       </svg>
-      Print to Clinical Records
+      Print
     </button>
     
     <div class="disclaimer">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6.5" stroke="#9A9188"/><rect x="6.4" y="5.5" width="1.2" height="5" rx="0.6" fill="#9A9188"/><rect x="6.4" y="3" width="1.2" height="1.5" rx="0.6" fill="#9A9188"/></svg>
-      This tool is intended for clinical reference only and does not constitute a diagnostic assessment. Results should be interpreted by a qualified paediatric clinician in the context of a full developmental history and clinical examination.
+      This tool is intended for clinical reference only and does not constitute a diagnostic assessment. Results should be interpreted by a qualified clinician in the context of a full developmental history.
     </div>
   </div>
 </div>
@@ -302,8 +324,7 @@
 <script>
 /**
  * CLINICAL DATA CONFIGURATION
- * Structurally isolated for easy extraction to JSON/API.
- * Version: 2.0 (ASQ-3 / Developmental Matters / Nottinghamshire Aligned)
+ * Version: 2.1
  */
 const UNIVERSAL_FLAGS = [
   "Loss of previously acquired skills in any domain",
@@ -316,85 +337,206 @@ const UNIVERSAL_FLAGS = [
 ];
 
 const CLINICAL_DATA = {
-  version: "2.0",
+  version: "2.1",
   source_guidelines: "ASQ-3 / Developmental Matters / Nottinghamshire",
   milestones: [
     {
       age_group: "2 months",
       domains: {
-        gross: ["Moves head side to side while on back", "Holds head up when on tummy", "Kicks legs symmetrically when on back", "Lifts head and chest from floor"],
-        fine: ["Holds hands partly open", "Grasps finger placed in palm", "Touches own face with hands", "Brings hands together over chest"],
-        speech: ["Makes throaty or gurgling sounds", "Smiles when spoken to", "Turns towards familiar sounds", "Makes cooing sounds like ooo"],
-        social: ["Smiles back when smiled at", "Watches own hands with interest", "Cries to communicate different needs", "Enjoys being held and cuddled"],
-        cognitive: ["Looks at objects 8 to 10 inches away", "Follows moving person with eyes", "Follows toy moved side to side", "Waves arms at dangling toy"]
+        gross: [
+          { text: "Moves head side to side while on back", observable_in_consultation: true },
+          { text: "Holds head up when on tummy", observable_in_consultation: true },
+          { text: "Kicks legs symmetrically when on back", observable_in_consultation: true },
+          { text: "Lifts head and chest from floor", observable_in_consultation: true }
+        ],
+        fine: [
+          { text: "Holds hands partly open", observable_in_consultation: true },
+          { text: "Grasps finger placed in palm", observable_in_consultation: true },
+          { text: "Touches own face with hands", observable_in_consultation: true },
+          { text: "Brings hands together over chest", observable_in_consultation: true }
+        ],
+        speech: [
+          { text: "Makes throaty or gurgling sounds", observable_in_consultation: true },
+          { text: "Smiles when spoken to", observable_in_consultation: true },
+          { text: "Turns towards familiar sounds", observable_in_consultation: true },
+          { text: "Makes cooing sounds like ooo", observable_in_consultation: true }
+        ],
+        social: [
+          { text: "Smiles back when smiled at", observable_in_consultation: true },
+          { text: "Watches own hands with interest", observable_in_consultation: true },
+          { text: "Cries to communicate different needs", observable_in_consultation: false },
+          { text: "Enjoys being held and cuddled", observable_in_consultation: true }
+        ],
+        cognitive: [
+          { text: "Looks at objects 8 to 10 inches away", observable_in_consultation: true },
+          { text: "Follows moving person with eyes", observable_in_consultation: true },
+          { text: "Follows toy moved side to side", observable_in_consultation: true },
+          { text: "Waves arms at dangling toy", observable_in_consultation: true }
+        ]
       },
       flags: [
         "Lack of a social smile",
         "No visual fixation or following",
         "Failure to respond to sound or startle",
         "Excessive head lag",
-        "Asymmetrical neonatal reflexes",
-        ...UNIVERSAL_FLAGS
+        "Asymmetrical neonatal reflexes"
       ]
     },
     {
       age_group: "4 months",
       domains: {
-        gross: ["Holds head steady when sitting", "Holds head up 3 inches on tummy", "Lays head down with control", "Bears weight on legs when standing"],
-        fine: ["Holds toy briefly in hand", "Hands mostly open, not fisted", "Waves a toy about", "Reaches for toy with both hands"],
-        speech: ["Chuckles softly or laughs", "Makes high-pitched squeals", "Stops crying to new voice", "Makes sounds looking at people"],
-        social: ["Smiles when seeing you nearby", "Smiles at self in mirror", "Plays with own fingers", "Gets excited when parent appears"],
-        cognitive: ["Follows moving toy side to side", "Follows toy moved up and down", "Looks at toy placed in front", "Puts toy in mouth"]
+        gross: [
+          { text: "Holds head steady when sitting", observable_in_consultation: true },
+          { text: "Holds head up 3 inches on tummy", observable_in_consultation: true },
+          { text: "Lays head down with control", observable_in_consultation: true },
+          { text: "Bears weight on legs when standing", observable_in_consultation: true }
+        ],
+        fine: [
+          { text: "Holds toy briefly in hand", observable_in_consultation: true },
+          { text: "Hands mostly open, not fisted", observable_in_consultation: true },
+          { text: "Waves a toy about", observable_in_consultation: true },
+          { text: "Reaches for toy with both hands", observable_in_consultation: true }
+        ],
+        speech: [
+          { text: "Chuckles softly or laughs", observable_in_consultation: true },
+          { text: "Makes high-pitched squeals", observable_in_consultation: true },
+          { text: "Stops crying to new voice", observable_in_consultation: false },
+          { text: "Makes sounds looking at people", observable_in_consultation: true }
+        ],
+        social: [
+          { text: "Smiles when seeing you nearby", observable_in_consultation: true },
+          { text: "Smiles at self in mirror", observable_in_consultation: true },
+          { text: "Plays with own fingers", observable_in_consultation: true },
+          { text: "Gets excited when parent appears", observable_in_consultation: true }
+        ],
+        cognitive: [
+          { text: "Follows moving toy side to side", observable_in_consultation: true },
+          { text: "Follows toy moved up and down", observable_in_consultation: true },
+          { text: "Looks at toy placed in front", observable_in_consultation: true },
+          { text: "Puts toy in mouth", observable_in_consultation: true }
+        ]
       },
       flags: [
         "Not following objects with eyes",
         "Does not turn towards sound source",
-        "No cooing with pleasure",
-        ...UNIVERSAL_FLAGS
+        "No cooing with pleasure"
       ]
     },
     {
       age_group: "6 months",
       domains: {
-        gross: ["Rolls back to tummy", "Sits leaning on hands", "Pushes chest up with straight arms", "Lifts legs to see feet"],
-        fine: ["Picks up toy with one hand", "Passes toy between hands", "Raking motion for crumbs", "Reaches and grasps with both hands"],
-        speech: ["Makes deep-toned growling sounds", "Turns to loud noises", "Babbles da, ga, or ba", "Repeats sounds back to you"],
-        social: ["Acts differently toward strangers", "Plays by grabbing foot", "Reaches to pat mirror", "Tries to get out-of-reach toy"],
-        cognitive: ["Bangs toy up and down", "Turns head to dropped toy", "Reaches for toy with both hands", "Puts toy in mouth"]
+        gross: [
+          { text: "Rolls back to tummy", observable_in_consultation: false },
+          { text: "Sits leaning on hands", observable_in_consultation: true },
+          { text: "Pushes chest up with straight arms", observable_in_consultation: true },
+          { text: "Lifts legs to see feet", observable_in_consultation: true }
+        ],
+        fine: [
+          { text: "Picks up toy with one hand", observable_in_consultation: true },
+          { text: "Passes toy between hands", observable_in_consultation: true },
+          { text: "Raking motion for crumbs", observable_in_consultation: true },
+          { text: "Reaches and grasps with both hands", observable_in_consultation: true }
+        ],
+        speech: [
+          { text: "Makes deep-toned growling sounds", observable_in_consultation: true },
+          { text: "Turns to loud noises", observable_in_consultation: true },
+          { text: "Babbles da, ga, or ba", observable_in_consultation: true },
+          { text: "Repeats sounds back to you", observable_in_consultation: true }
+        ],
+        social: [
+          { text: "Acts differently toward strangers", observable_in_consultation: true },
+          { text: "Plays by grabbing foot", observable_in_consultation: true },
+          { text: "Reaches to pat mirror", observable_in_consultation: true },
+          { text: "Tries to get out-of-reach toy", observable_in_consultation: true }
+        ],
+        cognitive: [
+          { text: "Bangs toy up and down", observable_in_consultation: true },
+          { text: "Turns head to dropped toy", observable_in_consultation: true },
+          { text: "Reaches for toy with both hands", observable_in_consultation: true },
+          { text: "Puts toy in mouth", observable_in_consultation: true }
+        ]
       },
       flags: [
         "Poor head control",
         "Not reaching for objects",
         "No babbling",
         "Persistence of primitive reflexes",
-        "Hand preference or fisting",
-        ...UNIVERSAL_FLAGS
+        "Hand preference or fisting"
       ]
     },
     {
       age_group: "9 months",
       domains: {
-        gross: ["Sits up straight unsupported", "Pulls to stand at furniture", "Lowers self with control", "Walks beside furniture holding on"],
-        fine: ["Picks up small toy one-handed", "Pincer grasp with thumb and finger", "Puts toy down without dropping", "Picks up string with thumb and finger"],
-        speech: ["Plays peek-a-boo or pat-a-cake", "Follows one simple command", "Points to tell what they want", "Babbles complex tuneful sounds"],
-        social: ["Feeds self cracker or cookie", "Offers toy to you", "Pushes arm through sleeve", "Shows clear preference for familiar people"],
-        cognitive: ["Passes toy back and forth", "Bangs two toys together", "Finds completely hidden toy", "Pokes at crumb in clear bottle"]
+        gross: [
+          { text: "Sits up straight unsupported", observable_in_consultation: true },
+          { text: "Pulls to stand at furniture", observable_in_consultation: true },
+          { text: "Lowers self with control", observable_in_consultation: true },
+          { text: "Walks beside furniture holding on", observable_in_consultation: true }
+        ],
+        fine: [
+          { text: "Picks up small toy one-handed", observable_in_consultation: true },
+          { text: "Pincer grasp with thumb and finger", observable_in_consultation: true },
+          { text: "Puts toy down without dropping", observable_in_consultation: true },
+          { text: "Picks up string with thumb and finger", observable_in_consultation: true }
+        ],
+        speech: [
+          { text: "Plays peek-a-boo or pat-a-cake", observable_in_consultation: true },
+          { text: "Follows one simple command", observable_in_consultation: true },
+          { text: "Points to tell what they want", observable_in_consultation: true },
+          { text: "Babbles complex tuneful sounds", observable_in_consultation: true }
+        ],
+        social: [
+          { text: "Feeds self cracker or cookie", observable_in_consultation: false },
+          { text: "Offers toy to you", observable_in_consultation: true },
+          { text: "Pushes arm through sleeve", observable_in_consultation: false },
+          { text: "Shows clear preference for familiar people", observable_in_consultation: true }
+        ],
+        cognitive: [
+          { text: "Passes toy back and forth", observable_in_consultation: true },
+          { text: "Bangs two toys together", observable_in_consultation: true },
+          { text: "Finds completely hidden toy", observable_in_consultation: true },
+          { text: "Pokes at crumb in clear bottle", observable_in_consultation: true }
+        ]
       },
       flags: [
         "Unable to sit well or roll both ways",
         "No raking pincer grasp",
-        "Does not understand 'no' or 'bye bye'",
-        ...UNIVERSAL_FLAGS
+        "Does not understand 'no' or 'bye bye'"
       ]
     },
     {
       age_group: "12 months",
       domains: {
-        gross: ["Stands alone taking steps", "Cruises using furniture for support", "Bends to pick up toy and stands", "Lowers to sit without falling"],
-        fine: ["Picks up crumb with thumb and finger", "Throws small ball forward", "Helps turn book pages", "Drops toys into container intentionally"],
-        speech: ["Uses single words like Mama", "Follows command without gestures", "Looks at named object", "Points to communicate wants"],
-        social: ["Rolls or throws ball back", "Hugs stuffed animal or doll", "Lifts foot for shoe or sock", "Lets go of toy into hand"],
-        cognitive: ["Claps two toys together", "Drops two toys into container", "Finds hidden toy under cloth", "Copies scribbling on paper"]
+        gross: [
+          { text: "Stands alone taking steps", observable_in_consultation: true },
+          { text: "Cruises using furniture for support", observable_in_consultation: true },
+          { text: "While holding onto furniture, bends down to pick up a toy from the floor and returns to a standing position", observable_in_consultation: true },
+          { text: "Lowers to sit without falling", observable_in_consultation: true }
+        ],
+        fine: [
+          { text: "Picks up crumb with thumb and finger", observable_in_consultation: true },
+          { text: "Puts a small toy down without dropping it, and takes hand off the toy", observable_in_consultation: true },
+          { text: "Throws small ball forward", observable_in_consultation: true },
+          { text: "Helps turn book pages", observable_in_consultation: true }
+        ],
+        speech: [
+          { text: "Uses single words like Mama", observable_in_consultation: true },
+          { text: "Follows command without gestures", observable_in_consultation: true },
+          { text: "Looks at named object", observable_in_consultation: true },
+          { text: "Points to communicate wants", observable_in_consultation: true }
+        ],
+        social: [
+          { text: "Waves 'bye-bye'", observable_in_consultation: true },
+          { text: "Repeats actions when laughed at", observable_in_consultation: true },
+          { text: "Lifts foot for shoe or sock", observable_in_consultation: false },
+          { text: "Lets go of toy into hand", observable_in_consultation: true }
+        ],
+        cognitive: [
+          { text: "Beginning to understand cause and effect", observable_in_consultation: true },
+          { text: "Claps two toys together", observable_in_consultation: true },
+          { text: "Drops two toys into container", observable_in_consultation: true },
+          { text: "Finds hidden toy under cloth", observable_in_consultation: true }
+        ]
       },
       flags: [
         "Unable to sit unsupported",
@@ -402,18 +544,42 @@ const CLINICAL_DATA = {
         "Absence of saving reactions",
         "Persistence of hand regard",
         "No babble by 12 months",
-        "Does not recognize own name",
-        ...UNIVERSAL_FLAGS
+        "Does not recognize own name"
       ]
     },
     {
       age_group: "18 months",
       domains: {
-        gross: ["Walks well and seldom falls", "Squats to pick up object", "Tries to kick large ball", "Bends to pick up toy and stands"],
-        fine: ["Throws small ball forward", "Stacks three small blocks", "Makes mark on paper with crayon", "Gets spoon to mouth upright"],
-        speech: ["Points to correct picture in book", "Says 8 or more words", "Imitates a two-word sentence", "Says two words together"],
-        social: ["Pulls hand to show something", "Comes to you for help", "Plays with doll by hugging", "Copies household chores"],
-        cognitive: ["Drops toys into container", "Uses tool to reach toy", "Dumps crumb from bottle", "Scribbles spontaneously"]
+        gross: [
+          { text: "Walks well and seldom falls", observable_in_consultation: true },
+          { text: "Squats to pick up object", observable_in_consultation: true },
+          { text: "Tries to kick large ball", observable_in_consultation: true },
+          { text: "Bends to pick up toy and stands", observable_in_consultation: true }
+        ],
+        fine: [
+          { text: "Throws small ball forward", observable_in_consultation: true },
+          { text: "Stacks three small blocks", observable_in_consultation: true },
+          { text: "Makes mark on paper with crayon", observable_in_consultation: true },
+          { text: "Gets spoon to mouth upright", observable_in_consultation: false }
+        ],
+        speech: [
+          { text: "Points to correct picture in book", observable_in_consultation: true },
+          { text: "Says 8 or more words", observable_in_consultation: true },
+          { text: "Imitates a two-word sentence", observable_in_consultation: true },
+          { text: "Says two words together", observable_in_consultation: true }
+        ],
+        social: [
+          { text: "Pulls hand to show something", observable_in_consultation: true },
+          { text: "Comes to you for help", observable_in_consultation: true },
+          { text: "Plays with doll by hugging", observable_in_consultation: true },
+          { text: "Copies household chores", observable_in_consultation: false }
+        ],
+        cognitive: [
+          { text: "Drops toys into container", observable_in_consultation: true },
+          { text: "Uses tool to reach toy", observable_in_consultation: true },
+          { text: "Dumps crumb from bottle", observable_in_consultation: true },
+          { text: "Scribbles spontaneously", observable_in_consultation: true }
+        ]
       },
       flags: [
         "Not walking independently",
@@ -422,83 +588,187 @@ const CLINICAL_DATA = {
         "No pointing or joint attention",
         "No pincer grip",
         "Failure to acquire pretend play",
-        "Persistence of casting or mouthing",
-        ...UNIVERSAL_FLAGS
+        "Persistence of casting or mouthing"
       ]
     },
     {
       age_group: "24 months",
       domains: {
-        gross: ["Runs fairly well stopping safely", "Jumps with both feet", "Kicks ball by swinging leg", "Walks down stairs holding hand"],
-        fine: ["Turns book pages one by one", "Turns doorknobs or unscrews lids", "Stacks seven small blocks", "Strings beads or macaroni"],
-        speech: ["Names at least one picture", "Follows three separate directions", "Points to seven body parts", "Uses pronouns me, I, you"],
-        social: ["Pretends to feed or rock doll", "Calls self I or me", "Drinks from cup with little spilling", "Eats with a fork"],
-        cognitive: ["Copies drawing a single vertical line", "Lines up four blocks", "Turns upside-down spoon correctly", "Uses chair to reach high object"]
+        gross: [
+          { text: "Runs fairly well stopping safely", observable_in_consultation: true },
+          { text: "Jumps with both feet", observable_in_consultation: true },
+          { text: "Kicks ball by swinging leg", observable_in_consultation: true },
+          { text: "Walks down stairs holding hand", observable_in_consultation: false }
+        ],
+        fine: [
+          { text: "Turns book pages one by one", observable_in_consultation: true },
+          { text: "Turns doorknobs or unscrews lids", observable_in_consultation: true },
+          { text: "Stacks seven small blocks", observable_in_consultation: true },
+          { text: "Strings beads or macaroni", observable_in_consultation: true }
+        ],
+        speech: [
+          { text: "Names at least one picture", observable_in_consultation: true },
+          { text: "Follows three separate directions", observable_in_consultation: true },
+          { text: "Points to seven body parts", observable_in_consultation: true },
+          { text: "Uses pronouns me, I, you", observable_in_consultation: true }
+        ],
+        social: [
+          { text: "Pretends to feed or rock doll", observable_in_consultation: true },
+          { text: "Calls self I or me", observable_in_consultation: true },
+          { text: "Drinks from cup with little spilling", observable_in_consultation: false },
+          { text: "Eats with a fork", observable_in_consultation: false }
+        ],
+        cognitive: [
+          { text: "Copies drawing a single vertical line", observable_in_consultation: true },
+          { text: "Lines up four blocks", observable_in_consultation: true },
+          { text: "Turns upside-down spoon correctly", observable_in_consultation: true },
+          { text: "Uses chair to reach high object", observable_in_consultation: false }
+        ]
       },
       flags: [
         "No spontaneous two-word phrases",
         "Unable to follow 2 step command",
         "Not running",
-        "Does not point to share interest",
-        ...UNIVERSAL_FLAGS
+        "Does not point to share interest"
       ]
     },
     {
       age_group: "3 years",
       domains: {
-        gross: ["Stands on one foot for 1 second", "Throws ball overhand", "Jumps forward 6 inches", "Walks up stairs alternating feet"],
-        fine: ["Copies a drawn circle", "Copies horizontal line", "Uses scissors to snip", "Strings small items on lace"],
-        speech: ["Uses 3 or 4 word sentences", "Tells what is happening in picture", "Says first and last name", "Names correctly pictured objects"],
-        social: ["Puts on coat or jacket", "Takes turns waiting", "Identifies self as boy or girl", "Feeds self with spoon"],
-        cognitive: ["Repeats two numbers", "Copies a block bridge", "Tells you what they drew", "Matches and sorts simple sets"]
+        gross: [
+          { text: "Stands on one foot for 1 second", observable_in_consultation: true },
+          { text: "Throws ball overhand", observable_in_consultation: true },
+          { text: "Jumps forward 6 inches", observable_in_consultation: true },
+          { text: "Walks up stairs alternating feet", observable_in_consultation: false }
+        ],
+        fine: [
+          { text: "Copies a drawn circle", observable_in_consultation: true },
+          { text: "Copies horizontal line", observable_in_consultation: true },
+          { text: "Uses scissors to snip", observable_in_consultation: true },
+          { text: "Strings small items on lace", observable_in_consultation: true }
+        ],
+        speech: [
+          { text: "Uses 3 or 4 word sentences", observable_in_consultation: true },
+          { text: "Tells what is happening in picture", observable_in_consultation: true },
+          { text: "Says first and last name", observable_in_consultation: true },
+          { text: "Names correctly pictured objects", observable_in_consultation: true }
+        ],
+        social: [
+          { text: "Puts on coat or jacket", observable_in_consultation: true },
+          { text: "Takes turns waiting", observable_in_consultation: true },
+          { text: "Identifies self as boy or girl", observable_in_consultation: true },
+          { text: "Feeds self with spoon", observable_in_consultation: false }
+        ],
+        cognitive: [
+          { text: "Repeats two numbers", observable_in_consultation: true },
+          { text: "Copies a block bridge", observable_in_consultation: true },
+          { text: "Tells you what they drew", observable_in_consultation: true },
+          { text: "Matches and sorts simple sets", observable_in_consultation: true }
+        ]
       },
       flags: [
         "Unable to pedal tricycle or alternate feet on stairs",
-        "No 3-4 word sentences",
-        ...UNIVERSAL_FLAGS
+        "No 3-4 word sentences"
       ]
     },
     {
       age_group: "4 years",
       domains: {
-        gross: ["Catches large ball with both hands", "Hops on one foot", "Jumps forward 20 inches", "Stands on one foot 5 seconds"],
-        fine: ["Cuts paper in half with scissors", "Copies shapes without tracing", "Unbuttons one or more buttons", "Draws a person with 3 features"],
-        speech: ["Names 3 items from a category", "Uses words ending in -ed or -s", "Follows 3 unrelated directions", "Uses complete sentences"],
-        social: ["Washes and dries hands independently", "Tells you first name, last name, age", "Names two or more playmates", "Serves self food with utensils"],
-        cognitive: ["Points to the smallest circle", "Names five different colors", "Repeats three numbers", "Counts five objects in order"]
+        gross: [
+          { text: "Catches large ball with both hands", observable_in_consultation: true },
+          { text: "Hops on one foot", observable_in_consultation: true },
+          { text: "Jumps forward 20 inches", observable_in_consultation: true },
+          { text: "Stands on one foot 5 seconds", observable_in_consultation: true }
+        ],
+        fine: [
+          { text: "Cuts paper in half with scissors", observable_in_consultation: true },
+          { text: "Copies shapes without tracing", observable_in_consultation: true },
+          { text: "Unbuttons one or more buttons", observable_in_consultation: true },
+          { text: "Draws a person with 3 features", observable_in_consultation: true }
+        ],
+        speech: [
+          { text: "Names 3 items from a category", observable_in_consultation: true },
+          { text: "Uses words ending in -ed or -s", observable_in_consultation: true },
+          { text: "Follows 3 unrelated directions", observable_in_consultation: true },
+          { text: "Uses complete sentences", observable_in_consultation: true }
+        ],
+        social: [
+          { text: "Washes and dries hands independently", observable_in_consultation: true },
+          { text: "Tells you first name, last name, age", observable_in_consultation: true },
+          { text: "Names two or more playmates", observable_in_consultation: true },
+          { text: "Serves self food with utensils", observable_in_consultation: false }
+        ],
+        cognitive: [
+          { text: "Points to the smallest circle", observable_in_consultation: true },
+          { text: "Names five different colors", observable_in_consultation: true },
+          { text: "Repeats three numbers", observable_in_consultation: true },
+          { text: "Counts five objects in order", observable_in_consultation: true }
+        ]
       },
       flags: [
         "Unable to hop on one leg",
-        "Cannot copy a cross or cut paper",
-        ...UNIVERSAL_FLAGS
+        "Cannot copy a cross or cut paper"
       ]
     },
     {
       age_group: "5 years",
       domains: {
-        gross: ["Throws ball overhand 6 feet", "Catches a large ball", "Walks on tiptoes for 15 feet", "Skips using alternating feet"],
-        fine: ["Traces on a line mostly accurately", "Copies letters without tracing", "Prints first name", "Draws person with multiple parts"],
-        speech: ["Uses 4 and 5 word sentences", "Uses comparison words like heavier", "Answers what to do when tired", "Uses past tense words ending in -ed"],
-        social: ["Takes turns and shares usually", "Uses toilet completely independently", "Dresses and undresses self", "Serves self food with utensils"],
-        cognitive: ["Counts up to 15 without mistakes", "Finishes opposite sentences", "Identifies written numbers", "Names four letters in own name"]
+        gross: [
+          { text: "Throws ball overhand 6 feet", observable_in_consultation: true },
+          { text: "Catches a large ball", observable_in_consultation: true },
+          { text: "Walks on tiptoes for 15 feet", observable_in_consultation: true },
+          { text: "Skips using alternating feet", observable_in_consultation: true }
+        ],
+        fine: [
+          { text: "Traces on a line mostly accurately", observable_in_consultation: true },
+          { text: "Copies letters without tracing", observable_in_consultation: true },
+          { text: "Prints first name", observable_in_consultation: true },
+          { text: "Draws person with multiple parts", observable_in_consultation: true }
+        ],
+        speech: [
+          { text: "Uses 4 and 5 word sentences", observable_in_consultation: true },
+          { text: "Uses comparison words like heavier", observable_in_consultation: true },
+          { text: "Answers what to do when tired", observable_in_consultation: true },
+          { text: "Uses past tense words ending in -ed", observable_in_consultation: true }
+        ],
+        social: [
+          { text: "Takes turns and shares usually", observable_in_consultation: true },
+          { text: "Uses toilet completely independently", observable_in_consultation: false },
+          { text: "Dresses and undresses self", observable_in_consultation: false },
+          { text: "Serves self food with utensils", observable_in_consultation: false }
+        ],
+        cognitive: [
+          { text: "Counts up to 15 without mistakes", observable_in_consultation: true },
+          { text: "Finishes opposite sentences", observable_in_consultation: true },
+          { text: "Identifies written numbers", observable_in_consultation: true },
+          { text: "Names four letters in own name", observable_in_consultation: true }
+        ]
       },
       flags: [
         "Speech not fully intelligible to strangers",
-        "Cannot skip or balance on one foot",
-        ...UNIVERSAL_FLAGS
+        "Cannot skip or balance on one foot"
       ]
     }
   ]
 };
 
-// Updated ORDER array to reflect the new age bands (swapped 3 months for 4 months)
 const ORDER = [2, 4, 6, 9, 12, 18, 24, 36, 48, 60];
+
+// Reset logic for the home button
+document.getElementById('btn-home').addEventListener('click', () => {
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('dob-day').value = '';
+  document.getElementById('dob-month').value = '';
+  document.getElementById('dob-year').value = '';
+  document.getElementById('gestation').value = '';
+  hideError();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
 
 // Calculate exact whole calendar months difference
 function getExactMonthsDiff(startDate, endDate) {
   let months = (endDate.getFullYear() - startDate.getFullYear()) * 12;
   months += endDate.getMonth() - startDate.getMonth();
-  // Subtract a month if the target day is earlier in the month than the start day
   if (endDate.getDate() < startDate.getDate()) {
     months--;
   }
@@ -524,42 +794,38 @@ function hideError() {
   document.getElementById('err').classList.remove('show');
 }
 
-// ── STATE MANAGEMENT ──
-function saveState() {
-  const state = {
-    dob: document.getElementById('dob').value,
-    gestation: document.getElementById('gestation').value
-  };
-  localStorage.setItem('childScreenState', JSON.stringify(state));
-}
-
-function loadState() {
-  const saved = localStorage.getItem('childScreenState');
-  if (saved) {
-    try {
-      const state = JSON.parse(saved);
-      if (state.dob) document.getElementById('dob').value = state.dob;
-      if (state.gestation) document.getElementById('gestation').value = state.gestation;
-    } catch(e) {
-      console.warn("Failed to parse saved state");
-    }
-  }
-}
-
 let activeIdx = 0;
 let tabIndices = [];
 
 function runAssessment() {
   hideError();
-  saveState();
   
-  const dobVal = document.getElementById('dob').value;
-  if (!dobVal) { 
-    showError('Please enter a valid date of birth to continue.'); 
+  const dStr = document.getElementById('dob-day').value;
+  const mStr = document.getElementById('dob-month').value;
+  const yStr = document.getElementById('dob-year').value;
+  
+  if (!dStr || !mStr || !yStr) { 
+    showError('Please complete all parts of the date of birth.'); 
     return; 
   }
 
-  const dob = new Date(dobVal);
+  const d = parseInt(dStr, 10);
+  const m = parseInt(mStr, 10);
+  const y = parseInt(yStr, 10);
+
+  // Basic date validation
+  if (m < 1 || m > 12 || d < 1 || d > 31 || y < 2000) {
+    showError('Please enter a valid date of birth.'); 
+    return;
+  }
+
+  // Construct date and check validity
+  const dob = new Date(y, m - 1, d);
+  if (dob.getFullYear() !== y || dob.getMonth() !== (m - 1) || dob.getDate() !== d) {
+    showError('Invalid calendar date provided.'); 
+    return;
+  }
+
   const today = new Date();
   
   if (dob > today) { 
@@ -571,32 +837,27 @@ function runAssessment() {
   let ga = 40; 
   if (gaInput) {
     ga = parseInt(gaInput, 10);
-    // Clinical boundary validation for gestational age
     if (ga < 22 || ga > 42) {
       showError('Gestational age must be between 22 and 42 weeks.');
       return;
     }
   }
 
-  // 1. Calculate Chronological Age (Exact Months)
+  // 1. Calculate Chronological Age
   let chronMonths = getExactMonthsDiff(dob, today);
   
-  // 2. Calculate Prematurity & Corrected Age
+  // 2. Calculate Prematurity
   let assessMonths = chronMonths;
   let correctedAgeStr = null;
   let corrNote = '';
 
   if (ga < 37) {
     if (chronMonths < 24) {
-      // Calculate Corrected DOB
       let correctedDob = new Date(dob);
       let premDays = (40 - ga) * 7;
       correctedDob.setDate(correctedDob.getDate() + premDays);
       
-      // Calculate age from corrected DOB to ensure exact clinical month boundaries
       let corrMonths = getExactMonthsDiff(correctedDob, today);
-      
-      // Prevent negative corrected age if assessed before expected due date
       assessMonths = Math.max(0, corrMonths);
       
       const cY = Math.floor(assessMonths / 12);
@@ -607,10 +868,9 @@ function runAssessment() {
     }
   }
 
-  // Boundary validations using exact months
   if (assessMonths >= 72) { 
     const errEl = document.getElementById('err');
-    errEl.innerHTML = '<strong>Child is over 6 years of age.</strong><br>This tool is validated for early years screening (up to 5 years). Please refer to school-aged cognitive and behavioural assessment pathways.'; 
+    errEl.innerHTML = '<strong>Child is over 6 years of age.</strong><br>This tool is validated for early years screening (up to 5 years). Please refer to school-aged cognitive pathways.'; 
     errEl.classList.add('show'); 
     return; 
   }
@@ -619,18 +879,15 @@ function runAssessment() {
     return; 
   }
 
-  // Populate Print Header
   document.getElementById('print-date').textContent = `Assessment Date: ${today.toLocaleDateString()}`;
 
-  // Build Age Display safely via DOM creation to avoid innerHTML injection
   const ageBlock = document.getElementById('age-block');
-  ageBlock.innerHTML = ''; // Clear previous safely
+  ageBlock.innerHTML = ''; 
 
   const cY_chron = Math.floor(chronMonths / 12);
   const cM_chron = chronMonths % 12;
   const chronStr = (cY_chron > 0 ? cY_chron + 'y ' : '') + cM_chron + 'm';
 
-  // Helper to create age rows
   const createAgeRow = (labelTxt, valTxt, showBadge) => {
     const row = document.createElement('div');
     row.className = 'result-age-row';
@@ -689,7 +946,6 @@ function renderTabs(autoIdx) {
     btn.className = 'm-tab' + (isActive ? ' active' : '');
     btn.style.cssText = 'border:none;font-family:inherit;';
     
-    // Build tab inner structure safely
     btn.textContent = CLINICAL_DATA.milestones[idx].age_group;
     if (idx === autoIdx) {
       const ind = document.createElement('span');
@@ -708,23 +964,6 @@ function renderTabs(autoIdx) {
       activeIdx = idx; 
       updateTabs(); 
       renderMilestone(idx); 
-    });
-
-    btn.addEventListener('keydown', (e) => {
-      let targetIdx = -1;
-      if (e.key === 'ArrowRight') {
-        targetIdx = (i + 1) % tabIndices.length;
-      } else if (e.key === 'ArrowLeft') {
-        targetIdx = (i - 1 + tabIndices.length) % tabIndices.length;
-      }
-      
-      if (targetIdx !== -1) {
-        const targetBtn = document.getElementById('tab-' + tabIndices[targetIdx]);
-        if(targetBtn) {
-          targetBtn.focus();
-          targetBtn.click();
-        }
-      }
     });
 
     tabsEl.appendChild(btn);
@@ -748,7 +987,6 @@ function updateTabs() {
 function renderMilestone(idx) {
   const d = CLINICAL_DATA.milestones[idx];
   
-  // Updated with 5th Cognitive domain mapping
   const domainDefs = [
     { key: 'gross',     cls: 'gross',     title: 'Gross motor' },
     { key: 'fine',      cls: 'fine',      title: 'Fine motor & vision' },
@@ -760,13 +998,11 @@ function renderMilestone(idx) {
   const container = document.getElementById('milestone-output');
   container.innerHTML = ''; 
 
-  // Section Heading
   const heading = document.createElement('div');
   heading.className = 'section-heading';
   heading.textContent = `Expected milestones — ${d.age_group}`;
   container.appendChild(heading);
 
-  // Domains Grid
   const grid = document.createElement('div');
   grid.className = 'domain-grid';
 
@@ -782,12 +1018,23 @@ function renderMilestone(idx) {
     const list = document.createElement('ul');
     list.className = 'milestone-list';
     
-    d.domains[dom.key].forEach(itemText => {
+    d.domains[dom.key].forEach(item => {
       const li = document.createElement('li');
+      
       const bullet = document.createElement('span');
       bullet.className = 'm-bullet';
       li.appendChild(bullet);
-      li.appendChild(document.createTextNode(itemText));
+      
+      const textNode = document.createTextNode(item.text + " ");
+      li.appendChild(textNode);
+
+      if (item.observable_in_consultation === false) {
+        const badge = document.createElement('span');
+        badge.className = 'm-badge';
+        badge.textContent = "Ask Parent";
+        li.appendChild(badge);
+      }
+
       list.appendChild(li);
     });
     
@@ -797,7 +1044,7 @@ function renderMilestone(idx) {
   
   container.appendChild(grid);
 
-  // Red Flags
+  // RED FLAGS UI
   const flagsPanel = document.createElement('div');
   flagsPanel.className = 'flags-panel';
   
@@ -806,8 +1053,14 @@ function renderMilestone(idx) {
   flagsTitle.innerHTML = `<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 11.5V2L8.5 4.5L5 7L8.5 9.5L2 11.5Z" stroke="#B84040" stroke-width="1.2" stroke-linejoin="round"/></svg> Clinical red flags — act early if present`;
   flagsPanel.appendChild(flagsTitle);
 
-  const flagsGrid = document.createElement('div');
-  flagsGrid.className = 'flags-grid';
+  // 1. Age-Specific Flags
+  const ageFlagsSub = document.createElement('div');
+  ageFlagsSub.className = 'flags-subheading';
+  ageFlagsSub.textContent = `Age-Specific Red Flags (${d.age_group})`;
+  flagsPanel.appendChild(ageFlagsSub);
+
+  const ageFlagsGrid = document.createElement('div');
+  ageFlagsGrid.className = 'flags-grid';
   
   d.flags.forEach(flagText => {
     const item = document.createElement('div');
@@ -817,10 +1070,32 @@ function renderMilestone(idx) {
     dash.textContent = '—';
     item.appendChild(dash);
     item.appendChild(document.createTextNode(flagText));
-    flagsGrid.appendChild(item);
+    ageFlagsGrid.appendChild(item);
   });
+  flagsPanel.appendChild(ageFlagsGrid);
 
-  flagsPanel.appendChild(flagsGrid);
+  // 2. Universal Flags
+  const uniFlagsSub = document.createElement('div');
+  uniFlagsSub.className = 'flags-subheading';
+  uniFlagsSub.style.marginTop = '20px';
+  uniFlagsSub.textContent = 'Universal Red Flags (Any Age)';
+  flagsPanel.appendChild(uniFlagsSub);
+
+  const uniFlagsGrid = document.createElement('div');
+  uniFlagsGrid.className = 'flags-grid';
+  
+  UNIVERSAL_FLAGS.forEach(flagText => {
+    const item = document.createElement('div');
+    item.className = 'flag-item';
+    const dash = document.createElement('span');
+    dash.className = 'flag-dash';
+    dash.textContent = '—';
+    item.appendChild(dash);
+    item.appendChild(document.createTextNode(flagText));
+    uniFlagsGrid.appendChild(item);
+  });
+  flagsPanel.appendChild(uniFlagsGrid);
+
   container.appendChild(flagsPanel);
 
   container.classList.remove('fade-up');
@@ -830,11 +1105,9 @@ function renderMilestone(idx) {
 
 // Bind Event Listeners on Load
 document.addEventListener('DOMContentLoaded', () => {
-  loadState();
   document.getElementById('btn-generate').addEventListener('click', runAssessment);
   document.getElementById('btn-print').addEventListener('click', () => window.print());
 });
-
 </script>
 </body>
 </html>
