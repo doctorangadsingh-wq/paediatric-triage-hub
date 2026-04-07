@@ -155,6 +155,7 @@
   .domain-card.fine   { background: var(--gold-light);  border-color: rgba(196,153,58,0.2); }
   .domain-card.speech { background: var(--sage-light);  border-color: rgba(122,158,142,0.2); }
   .domain-card.social { background: var(--slate-light); border-color: rgba(106,126,150,0.2); }
+  .domain-card.cognitive { background: var(--blush-light); border-color: rgba(201,133,106,0.2); }
 
   .domain-title {
     font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
@@ -164,6 +165,7 @@
   .domain-card.fine   .domain-title { color: var(--gold); }
   .domain-card.speech .domain-title { color: var(--sage); }
   .domain-card.social .domain-title { color: var(--slate); }
+  .domain-card.cognitive .domain-title { color: var(--blush); }
 
   .milestone-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
   .milestone-list li { font-size: 13px; color: var(--ink-soft); display: flex; align-items: flex-start; gap: 9px; line-height: 1.45; }
@@ -224,6 +226,7 @@
     .domain-card.fine { border-left-color: var(--gold) !important; }
     .domain-card.speech { border-left-color: var(--sage) !important; }
     .domain-card.social { border-left-color: var(--slate) !important; }
+    .domain-card.cognitive { border-left-color: var(--blush) !important; }
     
     .flags-panel { background: #fff !important; border: 2px solid #000 !important; page-break-inside: avoid; }
   }
@@ -240,7 +243,7 @@
   <div class="hero-inner">
     <div class="hero-eyebrow">Paediatric Assessment</div>
     <h1>Screening Tool for<br><em>Developmental</em> Milestones</h1>
-    <p class="hero-desc">Evidence-based milestone review across four developmental domains, with clinical prematurity correction for infants born before 37 weeks gestation.</p>
+    <p class="hero-desc">Evidence-based milestone review across five developmental domains, with clinical prematurity correction for infants born before 37 weeks gestation.</p>
   </div>
 </div>
 
@@ -300,116 +303,196 @@
 /**
  * CLINICAL DATA CONFIGURATION
  * Structurally isolated for easy extraction to JSON/API.
- * Version: 1.1 (ASQ-3 / EYFS Aligned)
+ * Version: 2.0 (ASQ-3 / Developmental Matters / Nottinghamshire Aligned)
  */
+const UNIVERSAL_FLAGS = [
+  "Loss of previously acquired skills in any domain",
+  "Hearing loss or failure to respond to sound",
+  "Concern about vision, fixing, following, or squint",
+  "Persistently low muscle tone or floppiness",
+  "Asymmetry of movements or early hand preference",
+  "Persistent toe walking",
+  "Head circumference crossing centiles or highly abnormal"
+];
+
 const CLINICAL_DATA = {
-  version: "1.1",
-  source_guidelines: "ASQ-3 / EYFS Development Matters / Sheridan",
+  version: "2.0",
+  source_guidelines: "ASQ-3 / Developmental Matters / Nottinghamshire",
   milestones: [
     {
       age_group: "2 months",
       domains: {
-        gross: ["Moves head from side to side while on back", "Holds head up longer than a few seconds when on tummy", "Kicks legs symmetrically when lying on back", "Waves arms and legs, wiggles, and squirms"],
-        fine: ["Holds hands open or partly open when awake", "Grasps a finger if it touches the palm of the hand", "Looks at objects that are 8-10 inches away", "Follows moving objects or people with eyes"],
-        speech: ["Makes throaty or gurgling sounds", "Makes cooing sounds such as ooo, gah, and aah", "Smiles when talked to", "Startles or stills to sudden sounds"],
-        social: ["Smiles back when smiled at", "Watches own hands", "Tries to suck even when not feeding", "Cries differentially to communicate needs"]
+        gross: ["Moves head side to side while on back", "Holds head up when on tummy", "Kicks legs symmetrically when on back", "Lifts head and chest from floor"],
+        fine: ["Holds hands partly open", "Grasps finger placed in palm", "Touches own face with hands", "Brings hands together over chest"],
+        speech: ["Makes throaty or gurgling sounds", "Smiles when spoken to", "Turns towards familiar sounds", "Makes cooing sounds like ooo"],
+        social: ["Smiles back when smiled at", "Watches own hands with interest", "Cries to communicate different needs", "Enjoys being held and cuddled"],
+        cognitive: ["Looks at objects 8 to 10 inches away", "Follows moving person with eyes", "Follows toy moved side to side", "Waves arms at dangling toy"]
       },
-      flags: ["Did not pass the newborn hearing screening test", "Does not move both hands and both legs equally well", "Concerns about vision or tracking objects", "Persistent fisting"]
+      flags: [
+        "Lack of a social smile",
+        "No visual fixation or following",
+        "Failure to respond to sound or startle",
+        "Excessive head lag",
+        "Asymmetrical neonatal reflexes",
+        ...UNIVERSAL_FLAGS
+      ]
     },
     {
-      age_group: "3 months",
+      age_group: "4 months",
       domains: {
-        gross: ["Lifts head and chest from floor during tummy time", "Kicks vigorously sometimes alternating legs", "Holds head steady when held in a sitting position", "Pushes down on legs when feet are on a flat surface"],
-        fine: ["Brings hands together over chest", "Engages in some finger play", "Holds a toy briefly when put in hand", "Hands remain open most of the time"],
-        speech: ["Recognises a familiar voice", "Vocalises when spoken to beginning conversations", "Responds to environmental sounds", "Stops crying when hearing a voice other than the primary caregiver"],
-        social: ["Smiles at carer or key person", "Begins to show emotion like squealing with delight", "Enjoys being held and having cuddles", "Maintains steady eye contact"]
+        gross: ["Holds head steady when sitting", "Holds head up 3 inches on tummy", "Lays head down with control", "Bears weight on legs when standing"],
+        fine: ["Holds toy briefly in hand", "Hands mostly open, not fisted", "Waves a toy about", "Reaches for toy with both hands"],
+        speech: ["Chuckles softly or laughs", "Makes high-pitched squeals", "Stops crying to new voice", "Makes sounds looking at people"],
+        social: ["Smiles when seeing you nearby", "Smiles at self in mirror", "Plays with own fingers", "Gets excited when parent appears"],
+        cognitive: ["Follows moving toy side to side", "Follows toy moved up and down", "Looks at toy placed in front", "Puts toy in mouth"]
       },
-      flags: ["Does not respond to loud noises", "Does not respond to familiar voices or turn to own name", "Does not move both hands and both legs equally well", "Cannot hold head steady"]
+      flags: [
+        "Not following objects with eyes",
+        "Does not turn towards sound source",
+        "No cooing with pleasure",
+        ...UNIVERSAL_FLAGS
+      ]
     },
     {
       age_group: "6 months",
       domains: {
-        gross: ["Rolls over from back to front and front to back", "Sits with support holding head and back straight", "Straightens both arms and pushes whole chest off the floor", "Lifts legs high enough to see feet while on back"],
-        fine: ["Uses whole hand in palmar grasp", "Passes a toy from one hand to the other", "Reaches for and grasps a toy using both hands at once", "Picks up a toy and puts it in mouth"],
-        speech: ["Makes simple babbling noises like da-da", "Makes high-pitched squeals and laughs", "Turns to see where a loud sound came from", "Responds to rhythm and tunes"],
-        social: ["Acts differently toward strangers than familiar people", "Smiles or coos at self in a large mirror", "Plays by grabbing foot and putting it in mouth", "Enjoys attention and being with others"]
+        gross: ["Rolls back to tummy", "Sits leaning on hands", "Pushes chest up with straight arms", "Lifts legs to see feet"],
+        fine: ["Picks up toy with one hand", "Passes toy between hands", "Raking motion for crumbs", "Reaches and grasps with both hands"],
+        speech: ["Makes deep-toned growling sounds", "Turns to loud noises", "Babbles da, ga, or ba", "Repeats sounds back to you"],
+        social: ["Acts differently toward strangers", "Plays by grabbing foot", "Reaches to pat mirror", "Tries to get out-of-reach toy"],
+        cognitive: ["Bangs toy up and down", "Turns head to dropped toy", "Reaches for toy with both hands", "Puts toy in mouth"]
       },
-      flags: ["Does not use both hands and both legs equally well", "Feet are not flat on the surface most of the time when supported to stand", "Too quiet or does not make sounds like other babies", "Shows no affection for caregivers"]
+      flags: [
+        "Poor head control",
+        "Not reaching for objects",
+        "No babbling",
+        "Persistence of primitive reflexes",
+        "Hand preference or fisting",
+        ...UNIVERSAL_FLAGS
+      ]
     },
     {
       age_group: "9 months",
       domains: {
-        gross: ["Sits unsupported leaning forward to maintain balance", "Covers floor area by crawling rolling and wriggling", "Pulls to a standing position using furniture for support", "Supports own weight while standing if hands are held"],
-        fine: ["Beginning to pick up small objects with a pincer grasp", "Bangs a toy against another toy in hand", "Picks up two small toys one in each hand", "Pokes at objects with index finger"],
-        speech: ["Responds to own name and understands simple words like no", "Points to objects of interest", "Babble is complex loud and tuneful", "Copies sounds made by caregivers"],
-        social: ["Plays nursery games like peek-a-boo or pat-a-cake", "Shows clear preference for familiar people with stranger anxiety", "Begins to feed self with finger food", "Stiffens body in annoyance or vocalises protest"]
+        gross: ["Sits up straight unsupported", "Pulls to stand at furniture", "Lowers self with control", "Walks beside furniture holding on"],
+        fine: ["Picks up small toy one-handed", "Pincer grasp with thumb and finger", "Puts toy down without dropping", "Picks up string with thumb and finger"],
+        speech: ["Plays peek-a-boo or pat-a-cake", "Follows one simple command", "Points to tell what they want", "Babbles complex tuneful sounds"],
+        social: ["Feeds self cracker or cookie", "Offers toy to you", "Pushes arm through sleeve", "Shows clear preference for familiar people"],
+        cognitive: ["Passes toy back and forth", "Bangs two toys together", "Finds completely hidden toy", "Pokes at crumb in clear bottle"]
       },
-      flags: ["Does not use both hands and both legs equally well", "Does not make sounds or babble like other babies", "Cannot sit up straight for several minutes without support", "Does not respond to own name"]
+      flags: [
+        "Unable to sit well or roll both ways",
+        "No raking pincer grasp",
+        "Does not understand 'no' or 'bye bye'",
+        ...UNIVERSAL_FLAGS
+      ]
     },
     {
       age_group: "12 months",
       domains: {
-        gross: ["Cruises around using furniture for support", "Stands alone and may walk a few steps", "Lowers self with control from standing to sitting", "Throws toys intentionally"],
-        fine: ["Picks up a crumb with the tips of thumb and a finger", "Drops toys into a container like a bowl or box", "Helps turn the pages of a book", "Puts a small toy down without dropping it"],
-        speech: ["Uses single words like Dadda or Mama", "Understands simple instructions like Come here", "Joins in with some songs", "Looks for out-of-sight objects indicating object permanence"],
-        social: ["Drinks from a cup or beaker independently", "Feeds self with a spoon or fork", "Rolls or throws a ball back to a partner", "May undress self by removing hats or socks"]
+        gross: ["Stands alone taking steps", "Cruises using furniture for support", "Bends to pick up toy and stands", "Lowers to sit without falling"],
+        fine: ["Picks up crumb with thumb and finger", "Throws small ball forward", "Helps turn book pages", "Drops toys into container intentionally"],
+        speech: ["Uses single words like Mama", "Follows command without gestures", "Looks at named object", "Points to communicate wants"],
+        social: ["Rolls or throws ball back", "Hugs stuffed animal or doll", "Lifts foot for shoe or sock", "Lets go of toy into hand"],
+        cognitive: ["Claps two toys together", "Drops two toys into container", "Finds hidden toy under cloth", "Copies scribbling on paper"]
       },
-      flags: ["Does not play with sounds or seem to make words", "Feet are not flat on the surface most of the time when standing", "Does not point to show things to adults", "Loss of previously acquired skills"]
+      flags: [
+        "Unable to sit unsupported",
+        "Unable to bear weight when held standing",
+        "Absence of saving reactions",
+        "Persistence of hand regard",
+        "No babble by 12 months",
+        "Does not recognize own name",
+        ...UNIVERSAL_FLAGS
+      ]
     },
     {
       age_group: "18 months",
       domains: {
-        gross: ["Walks well and no longer uses arms to balance", "Can run but finds it difficult to negotiate obstacles", "Walks up steps holding hands", "Kneels and squats steadily to pick up toys"],
-        fine: ["Scribbles back and forth with a crayon or pencil", "Stacks three small blocks or toys", "Turns pages in a book not usually one by one", "Uses a spoon to eat with little spilling"],
-        speech: ["Uses between 6 and 20 clear words", "Understands many words and simple instructions", "Makes demands known by pointing with vocalisation", "Points to correct picture in a book when asked"],
-        social: ["Imitates everyday activities like feeding a doll", "Plays contently alone but likes security of near familiar practitioner", "Helps undress self", "Comes to adults when needing help"]
+        gross: ["Walks well and seldom falls", "Squats to pick up object", "Tries to kick large ball", "Bends to pick up toy and stands"],
+        fine: ["Throws small ball forward", "Stacks three small blocks", "Makes mark on paper with crayon", "Gets spoon to mouth upright"],
+        speech: ["Points to correct picture in book", "Says 8 or more words", "Imitates a two-word sentence", "Says two words together"],
+        social: ["Pulls hand to show something", "Comes to you for help", "Plays with doll by hugging", "Copies household chores"],
+        cognitive: ["Drops toys into container", "Uses tool to reach toy", "Dumps crumb from bottle", "Scribbles spontaneously"]
       },
-      flags: ["Extremely upset by certain sounds smells or tastes and cannot be calmed", "Does not walk run or climb like other toddlers", "Does not participate in pretend play", "Loss of previously acquired skills"]
+      flags: [
+        "Not walking independently",
+        "No speech or meaningful single words",
+        "Inability to understand simple commands",
+        "No pointing or joint attention",
+        "No pincer grip",
+        "Failure to acquire pretend play",
+        "Persistence of casting or mouthing",
+        ...UNIVERSAL_FLAGS
+      ]
     },
     {
-      age_group: "2 years",
+      age_group: "24 months",
       domains: {
-        gross: ["Runs competently with more control when negotiating obstacles", "Walks up and down stairs holding a handrail", "Rides large wheeled toys without pedals", "Jumps with both feet leaving the floor at the same time"],
-        fine: ["Turns pages of a book more than one at a time", "Joins and separates interlocking toys like Duplo", "Draws circles lines and dots", "Stacks six or seven small blocks or toys"],
-        speech: ["Vocabulary increases to approx 50 words and joins two words", "Names objects on sight like car or doll", "Follows three different separate directions without gestures", "Correctly uses pronouns like me I mine and you"],
-        social: ["Plays alongside other children in solitary play", "Feeds self well with spoon or fork and handles drinks without spilling", "Attempts to verbalise toilet needs", "Engages in role-play and make-believe activities"]
+        gross: ["Runs fairly well stopping safely", "Jumps with both feet", "Kicks ball by swinging leg", "Walks down stairs holding hand"],
+        fine: ["Turns book pages one by one", "Turns doorknobs or unscrews lids", "Stacks seven small blocks", "Strings beads or macaroni"],
+        speech: ["Names at least one picture", "Follows three separate directions", "Points to seven body parts", "Uses pronouns me, I, you"],
+        social: ["Pretends to feed or rock doll", "Calls self I or me", "Drinks from cup with little spilling", "Eats with a fork"],
+        cognitive: ["Copies drawing a single vertical line", "Lines up four blocks", "Turns upside-down spoon correctly", "Uses chair to reach high object"]
       },
-      flags: ["Cannot understand most of what the child says", "Does not walk run and climb like other toddlers", "Does not put two or three words together", "Loss of previously acquired skills"]
+      flags: [
+        "No spontaneous two-word phrases",
+        "Unable to follow 2 step command",
+        "Not running",
+        "Does not point to share interest",
+        ...UNIVERSAL_FLAGS
+      ]
     },
     {
       age_group: "3 years",
       domains: {
-        gross: ["Walks and runs on tip-toes", "Pedals and steers a tricycle", "Climbs and slides on equipment confidently", "Jumps forward at least 6 inches with both feet"],
-        fine: ["Uses child-safe scissors to open and close blades", "Strings small items like beads onto a shoelace", "Draws a face and attempts letters with preferred hand", "Copies a vertical and horizontal line without tracing"],
-        speech: ["Uses three or four-word sentences", "Frequently asks what and why questions", "Uses language for thinking and explaining what happened", "Counts reliably to three or four"],
-        social: ["Enjoys the company of other children and is beginning to make friends", "Engages in elaborate make-believe play", "Understands the concept of saying sorry and making up", "Puts on a coat jacket or shirt by themselves"]
+        gross: ["Stands on one foot for 1 second", "Throws ball overhand", "Jumps forward 6 inches", "Walks up stairs alternating feet"],
+        fine: ["Copies a drawn circle", "Copies horizontal line", "Uses scissors to snip", "Strings small items on lace"],
+        speech: ["Uses 3 or 4 word sentences", "Tells what is happening in picture", "Says first and last name", "Names correctly pictured objects"],
+        social: ["Puts on coat or jacket", "Takes turns waiting", "Identifies self as boy or girl", "Feeds self with spoon"],
+        cognitive: ["Repeats two numbers", "Copies a block bridge", "Tells you what they drew", "Matches and sorts simple sets"]
       },
-      flags: ["Others cannot understand most of what the child says", "Cannot follow simple instructions or negotiate solutions in play", "Flits from one thing to the next or becomes distressed if encouraged to do something different", "Loss of previously acquired skills"]
+      flags: [
+        "Unable to pedal tricycle or alternate feet on stairs",
+        "No 3-4 word sentences",
+        ...UNIVERSAL_FLAGS
+      ]
     },
     {
       age_group: "4 years",
       domains: {
-        gross: ["Can change direction while running and walk in a straight line", "Hops up and down on one foot without losing balance", "Catches a large ball with both hands", "Throws a ball overhand towards a person"],
-        fine: ["Cuts a paper in half on a straight line using scissors", "Draws a person with at least three features", "Unbuttons one or more buttons", "Copies shapes onto a piece of paper"],
-        speech: ["Speech is grammatically correct and uses endings like -s -ed -ing", "Retells stories and gives accounts of recent events", "Names at least five different colors", "Follows three unrelated directions"],
-        social: ["Friendships are increasingly valued and plays cooperatively", "Manages most personal care tasks independently", "Understands the importance of rules and tries to keep them", "Can wait for their turn"]
+        gross: ["Catches large ball with both hands", "Hops on one foot", "Jumps forward 20 inches", "Stands on one foot 5 seconds"],
+        fine: ["Cuts paper in half with scissors", "Copies shapes without tracing", "Unbuttons one or more buttons", "Draws a person with 3 features"],
+        speech: ["Names 3 items from a category", "Uses words ending in -ed or -s", "Follows 3 unrelated directions", "Uses complete sentences"],
+        social: ["Washes and dries hands independently", "Tells you first name, last name, age", "Names two or more playmates", "Serves self food with utensils"],
+        cognitive: ["Points to the smallest circle", "Names five different colors", "Repeats three numbers", "Counts five objects in order"]
       },
-      flags: ["Speech is not easily understood by unfamiliar adults", "Struggling heavily with toilet training", "Does not take part in pretend play or elaborate role-play", "Loss of previously acquired skills"]
+      flags: [
+        "Unable to hop on one leg",
+        "Cannot copy a cross or cut paper",
+        ...UNIVERSAL_FLAGS
+      ]
     },
     {
       age_group: "5 years",
       domains: {
-        gross: ["Has good ball control and plays ball games with rules", "Skips using alternating feet", "Walks on tiptoes for 15 feet", "Balance is good and stands on one foot for 5 seconds"],
-        fine: ["Good control in mark making and forms letters accurately", "Prints first name", "Colors mostly within the lines in a coloring book", "Copies letters and shapes without tracing"],
-        speech: ["Uses language to share opinions and thinking", "Uses comparison words like heavier or smaller", "Finishes sentences using opposite words", "Counts up to 15 without making mistakes"],
-        social: ["Competent in all aspects of self-care and hygiene", "Uses the toilet independently wiping and flushing", "Usually takes turns and shares with other children", "Takes care of own possessions"]
+        gross: ["Throws ball overhand 6 feet", "Catches a large ball", "Walks on tiptoes for 15 feet", "Skips using alternating feet"],
+        fine: ["Traces on a line mostly accurately", "Copies letters without tracing", "Prints first name", "Draws person with multiple parts"],
+        speech: ["Uses 4 and 5 word sentences", "Uses comparison words like heavier", "Answers what to do when tired", "Uses past tense words ending in -ed"],
+        social: ["Takes turns and shares usually", "Uses toilet completely independently", "Dresses and undresses self", "Serves self food with utensils"],
+        cognitive: ["Counts up to 15 without mistakes", "Finishes opposite sentences", "Identifies written numbers", "Names four letters in own name"]
       },
-      flags: ["Cannot be understood by strangers", "Does not talk like other children their age", "Does not engage in co-operative play", "Loss of previously acquired skills"]
+      flags: [
+        "Speech not fully intelligible to strangers",
+        "Cannot skip or balance on one foot",
+        ...UNIVERSAL_FLAGS
+      ]
     }
   ]
 };
 
-const ORDER = [2, 3, 6, 9, 12, 18, 24, 36, 48, 60];
+// Updated ORDER array to reflect the new age bands (swapped 3 months for 4 months)
+const ORDER = [2, 4, 6, 9, 12, 18, 24, 36, 48, 60];
 
 // Calculate exact whole calendar months difference
 function getExactMonthsDiff(startDate, endDate) {
@@ -664,11 +747,14 @@ function updateTabs() {
 
 function renderMilestone(idx) {
   const d = CLINICAL_DATA.milestones[idx];
+  
+  // Updated with 5th Cognitive domain mapping
   const domainDefs = [
-    { key: 'gross',  cls: 'gross',  title: 'Gross motor' },
-    { key: 'fine',   cls: 'fine',   title: 'Fine motor & vision' },
-    { key: 'speech', cls: 'speech', title: 'Speech, language & hearing' },
-    { key: 'social', cls: 'social', title: 'Social & emotional' },
+    { key: 'gross',     cls: 'gross',     title: 'Gross motor' },
+    { key: 'fine',      cls: 'fine',      title: 'Fine motor & vision' },
+    { key: 'speech',    cls: 'speech',    title: 'Language & communication' },
+    { key: 'social',    cls: 'social',    title: 'Social & emotional' },
+    { key: 'cognitive', cls: 'cognitive', title: 'Problem solving & cognitive' }
   ];
 
   const container = document.getElementById('milestone-output');
