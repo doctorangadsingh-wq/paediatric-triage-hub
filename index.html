@@ -324,7 +324,7 @@
 <script>
 /**
  * CLINICAL DATA CONFIGURATION
- * Version: 2.1
+ * Version: 2.2 — Milestones corrected against ASQ-3 / Nottinghamshire source verification
  */
 const UNIVERSAL_FLAGS = [
   "Loss of previously acquired skills in any domain",
@@ -337,28 +337,28 @@ const UNIVERSAL_FLAGS = [
 ];
 
 const CLINICAL_DATA = {
-  version: "2.1",
+  version: "2.2",
   source_guidelines: "ASQ-3 / Developmental Matters / Nottinghamshire",
   milestones: [
     {
       age_group: "2 months",
       domains: {
         gross: [
+          // Removed: "Lifts head and chest from floor" — 3-month milestone (Nottinghamshire)
           { text: "Moves head side to side while on back", observable_in_consultation: true },
           { text: "Holds head up when on tummy", observable_in_consultation: true },
-          { text: "Kicks legs symmetrically when on back", observable_in_consultation: true },
-          { text: "Lifts head and chest from floor", observable_in_consultation: true }
+          { text: "Kicks legs symmetrically when on back", observable_in_consultation: true }
         ],
         fine: [
+          // Removed: "Brings hands together over chest" — 3-4 month milestone (ASQ-3 4m; Nottinghamshire 3m)
           { text: "Holds hands partly open", observable_in_consultation: true },
           { text: "Grasps finger placed in palm", observable_in_consultation: true },
-          { text: "Touches own face with hands", observable_in_consultation: true },
-          { text: "Brings hands together over chest", observable_in_consultation: true }
+          { text: "Touches own face with hands", observable_in_consultation: true }
         ],
         speech: [
+          // Removed: "Turns towards familiar sounds" — 3-month milestone (Nottinghamshire; ASQ-3 6m)
           { text: "Makes throaty or gurgling sounds", observable_in_consultation: true },
           { text: "Smiles when spoken to", observable_in_consultation: true },
-          { text: "Turns towards familiar sounds", observable_in_consultation: true },
           { text: "Makes cooing sounds like ooo", observable_in_consultation: true }
         ],
         social: [
@@ -386,16 +386,16 @@ const CLINICAL_DATA = {
       age_group: "4 months",
       domains: {
         gross: [
+          // Removed: "Bears weight on legs when standing" — 6-month milestone (ASQ-3 6m)
           { text: "Holds head steady when sitting", observable_in_consultation: true },
           { text: "Holds head up 3 inches on tummy", observable_in_consultation: true },
-          { text: "Lays head down with control", observable_in_consultation: true },
-          { text: "Bears weight on legs when standing", observable_in_consultation: true }
+          { text: "Lays head down with control", observable_in_consultation: true }
         ],
         fine: [
+          // Removed: "Reaches for toy with both hands" — 6-month milestone (ASQ-3 6m)
           { text: "Holds toy briefly in hand", observable_in_consultation: true },
           { text: "Hands mostly open, not fisted", observable_in_consultation: true },
-          { text: "Waves a toy about", observable_in_consultation: true },
-          { text: "Reaches for toy with both hands", observable_in_consultation: true }
+          { text: "Waves a toy about", observable_in_consultation: true }
         ],
         speech: [
           { text: "Chuckles softly or laughs", observable_in_consultation: true },
@@ -480,9 +480,9 @@ const CLINICAL_DATA = {
           { text: "Picks up string with thumb and finger", observable_in_consultation: true }
         ],
         speech: [
+          // Removed: "Points to tell what they want" — 12-month milestone (ASQ-3 12m)
           { text: "Plays peek-a-boo or pat-a-cake", observable_in_consultation: true },
           { text: "Follows one simple command", observable_in_consultation: true },
-          { text: "Points to tell what they want", observable_in_consultation: true },
           { text: "Babbles complex tuneful sounds", observable_in_consultation: true }
         ],
         social: [
@@ -595,21 +595,21 @@ const CLINICAL_DATA = {
       age_group: "24 months",
       domains: {
         gross: [
+          // Removed: "Walks down stairs holding hand" — 20-22 month milestone, not on 24m ASQ-3
           { text: "Runs fairly well stopping safely", observable_in_consultation: true },
           { text: "Jumps with both feet", observable_in_consultation: true },
-          { text: "Kicks ball by swinging leg", observable_in_consultation: true },
-          { text: "Walks down stairs holding hand", observable_in_consultation: false }
+          { text: "Kicks ball by swinging leg", observable_in_consultation: true }
         ],
         fine: [
-          { text: "Turns book pages one by one", observable_in_consultation: true },
+          // Removed: "Turns book pages one by one" — 30-36 month milestone (ASQ-3 30m)
           { text: "Turns doorknobs or unscrews lids", observable_in_consultation: true },
           { text: "Stacks seven small blocks", observable_in_consultation: true },
           { text: "Strings beads or macaroni", observable_in_consultation: true }
         ],
         speech: [
+          // Removed: "Points to seven body parts" — falls between 22m and 27m ASQ-3, not on 24m sheet
           { text: "Names at least one picture", observable_in_consultation: true },
           { text: "Follows three separate directions", observable_in_consultation: true },
-          { text: "Points to seven body parts", observable_in_consultation: true },
           { text: "Uses pronouns me, I, you", observable_in_consultation: true }
         ],
         social: [
@@ -619,9 +619,9 @@ const CLINICAL_DATA = {
           { text: "Eats with a fork", observable_in_consultation: false }
         ],
         cognitive: [
+          // Removed: "Turns upside-down spoon correctly" — 20-22 month milestone, not on 24m ASQ-3
           { text: "Copies drawing a single vertical line", observable_in_consultation: true },
           { text: "Lines up four blocks", observable_in_consultation: true },
-          { text: "Turns upside-down spoon correctly", observable_in_consultation: true },
           { text: "Uses chair to reach high object", observable_in_consultation: false }
         ]
       },
@@ -648,10 +648,10 @@ const CLINICAL_DATA = {
           { text: "Strings small items on lace", observable_in_consultation: true }
         ],
         speech: [
+          // Removed: "Names correctly pictured objects" — 2-2.5 year milestone (ASQ-3 24-30m)
           { text: "Uses 3 or 4 word sentences", observable_in_consultation: true },
           { text: "Tells what is happening in picture", observable_in_consultation: true },
-          { text: "Says first and last name", observable_in_consultation: true },
-          { text: "Names correctly pictured objects", observable_in_consultation: true }
+          { text: "Says first and last name", observable_in_consultation: true }
         ],
         social: [
           { text: "Puts on coat or jacket", observable_in_consultation: true },
